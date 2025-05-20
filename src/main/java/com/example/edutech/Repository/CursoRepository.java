@@ -55,6 +55,26 @@ public class CursoRepository  {
     }
 
 
+
+
+    public void notificaciones(Curso cso){
+        //apartado de notificaciones debería mostrar los cursos
+        // que se inscribieron
+        //Además si hay problemas con inscripcion debería capturar el curso(?
+        Curso curso = new Curso();
+        //curso.setId((int) nuevoId()); 
+        curso.setNombre(cso.getNombre());
+        curso.setDescripcion(cso.getDescripcion());
+        curso.setCupos(cso.getCupos());
+        curso.setPrecio(cso.getPrecio());
+        
+        listaCursos.add(curso);
+        //mostrar los cursos con problemas
+        //con un equivalente a sout, quizás con un try catch
+        //añadir-mostrar el estado de una solicitud(?
+
+    }
+
     public Curso actualizar(Curso c) {
         int id = 0;
         int idPosicion = 0;
