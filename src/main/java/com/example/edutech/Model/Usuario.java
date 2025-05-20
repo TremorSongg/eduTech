@@ -3,7 +3,7 @@ package com.example.edutech.Model;
 import java.util.Optional;
 
 import jakarta.persistence.*;
-import lombok.Data;;
+import lombok.Data;
 
 @Entity
 @Data

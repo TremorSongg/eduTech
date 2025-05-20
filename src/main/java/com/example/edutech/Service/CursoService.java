@@ -15,32 +15,41 @@ public class CursoService {
     private CursoRepository cursoRepository;
 
     public List<Curso> obtenerCursos() {
-        return cursoRepository.findAll();
+        // return cursoRepository.findAll();
+        throw new UnsupportedOperationException("Unimplemented method 'map'");
     }
 
     public Optional<Curso> buscarPorId(Long id) {
-        return cursoRepository.findById(id);
+        // return cursoRepository.findById(id);
+        throw new UnsupportedOperationException("Unimplemented method 'map'");
     }
 
     public Curso guardar(Curso curso) {
-        return cursoRepository.save(curso);
+        // return cursoRepository.save(curso);
+        throw new UnsupportedOperationException("Unimplemented method 'map'");
     }
 
     public Curso actualizar(Long id, Curso cursoActualizado) {
-        Optional<Curso> optionalCurso = cursoRepository.findById(id);
-        if (optionalCurso.isPresent()) {
-            Curso cursoExistente = optionalCurso.get();
-            cursoExistente.setNombre(cursoActualizado.getNombre());
-            cursoExistente.setDescripcion(cursoActualizado.getDescripcion());
-            cursoExistente.setCupos(cursoActualizado.getCupos());
-            return cursoRepository.save(cursoExistente);
-        } else {
-            return null;
-        }
+        // Optional<Curso> optionalCurso = cursoRepository.findById(id);
+        // if (optionalCurso.isPresent()) {
+        //     Curso cursoExistente = optionalCurso.get();
+        //     cursoExistente.setNombre(cursoActualizado.getNombre());
+        //     cursoExistente.setDescripcion(cursoActualizado.getDescripcion());
+        //     cursoExistente.setCupos(cursoActualizado.getCupos());
+        //     return cursoRepository.save(cursoExistente);
+        // } else {
+        //     return null;
+        // }
+        throw new UnsupportedOperationException("Unimplemented method 'map'");
     }
 
     public void eliminar(Long id) {
-        cursoRepository.deleteById(id);
+        // cursoRepository.deleteById(id);
+        throw new UnsupportedOperationException("Unimplemented method 'map'");
+    }
+
+    public Curso actualizarStock(Curso c) {
+        return cursoRepository.controlStock(c);
     }
 
 }
