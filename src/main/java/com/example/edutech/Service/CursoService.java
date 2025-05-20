@@ -29,18 +29,8 @@ public class CursoService {
         throw new UnsupportedOperationException("Unimplemented method 'map'");
     }
 
-    public Curso actualizar(Long id, Curso cursoActualizado) {
-        // Optional<Curso> optionalCurso = cursoRepository.findById(id);
-        // if (optionalCurso.isPresent()) {
-        //     Curso cursoExistente = optionalCurso.get();
-        //     cursoExistente.setNombre(cursoActualizado.getNombre());
-        //     cursoExistente.setDescripcion(cursoActualizado.getDescripcion());
-        //     cursoExistente.setCupos(cursoActualizado.getCupos());
-        //     return cursoRepository.save(cursoExistente);
-        // } else {
-        //     return null;
-        // }
-        throw new UnsupportedOperationException("Unimplemented method 'map'");
+    public Curso actualizar(Curso cursoActualizado) {
+        return cursoRepository.actualizar(cursoActualizado);
     }
 
     public void eliminar(Long id) {

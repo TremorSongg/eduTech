@@ -9,6 +9,28 @@ import org.springframework.stereotype.Repository;
 public class CursoRepository  {
     private List<Curso> listaCursos = new ArrayList<>();
 
+    public Curso actualizar(Curso c) {
+        int id = 0;
+        int idPosicion = 0;
+        for (int i = 0; i < listaCursos.size(); i++) {
+            if ( listaCursos.get(i).getId() == c.getId()) {
+                id = c.getId();
+                idPosicion = i;
+            }
+        }
+        Curso curso1 = new Curso();
+        curso1.setId(id);
+        curso1.setNombre(c.getNombre());
+        curso1.setDescripcion(c.getDescripcion());
+        curso1.setCupos(c.getCupos());
+        curso1.setPrecio(c.getPrecio());
+
+        listaCursos.set(idPosicion,curso1);
+        return curso1;
+    }
+
+
+
     public Curso controlStock(Curso c) {
         int id = 0;
         int idPosicion = 0;
