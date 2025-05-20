@@ -9,6 +9,52 @@ import org.springframework.stereotype.Repository;
 public class CursoRepository  {
     private List<Curso> listaCursos = new ArrayList<>();
 
+    //Metodo que retonrna los cursos
+    public List<Curso>obtenerCursos(){
+        return listaCursos;
+    }
+
+    public Curso buscarPorId(Long id){
+        for (Curso curso : listaCursos) {
+            if(curso.getId() == id){
+                return curso;
+            }
+        }
+        return null;
+    }
+
+    public Curso buscarporNombre(String nombre){
+        for (Curso curso : listaCursos) {
+            if(curso.getNombre() == nombre){
+                return curso;
+            }
+        }
+        return null;
+    }
+
+    public Curso guardar (Curso cso){
+        //Generar ID secuencial
+        long nuevoId  = 1;
+        for (Curso c : listaCursos) {
+            if (c.getId() >= nuevoId){
+                nuevoId = c.getId()+1;
+            }
+        }
+        //crear nueva instancia con los datos del curso recibido
+        Curso curso = new Curso ();
+        curso.setId((int) nuevoId); // ID generado de manera automática
+        curso.setNombre(cso.getNombre());
+        curso.setCupos(cso.getCupos());
+        curso.setDescripcion(cso.getDescripcion());
+        curso.setPrecio(cso.getPrecio());
+        
+        //Agrega nuevo curso
+        listaCursos.add(curso);
+
+        return curso;
+    }
+
+
     public Curso actualizar(Curso c) {
         int id = 0;
         int idPosicion = 0;
