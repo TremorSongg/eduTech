@@ -16,6 +16,7 @@ public class Curso {
     private String nombre;
     private String descripcion;
     private int cupos;
+    private Double precio;
 
     public static Optional<Curso> map(Object o) {
         throw new UnsupportedOperationException("Unimplemented method 'map'");
