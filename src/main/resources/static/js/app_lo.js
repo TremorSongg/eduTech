@@ -6,7 +6,7 @@ function login(){
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify({
       email: document.getElementById("email").value,
-      assword: document.getElementById("password").value
+      password: document.getElementById("password").value
     })
   })
   .then(Response => Response.json())
