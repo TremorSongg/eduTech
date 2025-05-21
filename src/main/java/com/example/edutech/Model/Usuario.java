@@ -11,7 +11,7 @@ import lombok.Data;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String nombre;
     private String email;
@@ -20,4 +20,8 @@ public class Usuario {
     public static Optional<Usuario> map(Object o){
         throw new UnsupportedOperationException("Unimplemented method 'map'");
     }
+
+    public Usuario() {
+    }
+
 }

@@ -20,7 +20,7 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public Curso obtenerCursoPorId(@PathVariable Long id) {
+    public Curso obtenerCursoPorId(@PathVariable int id) {
         return cursoService.buscarPorId(id).orElse(null);
     }
 
@@ -30,12 +30,12 @@ public class CursoController {
     }
 
     @PutMapping("actualizar/{id}")
-    public Curso actualizarCurso(@PathVariable Long id, @RequestBody Curso curso) {
-        return cursoService.actualizar(curso);
+    public Curso actualizarCurso(@PathVariable int id, @RequestBody Curso curso) {
+        return cursoService.actualizar(id, curso);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarCurso(@PathVariable Long id) {
+    public void eliminarCurso(@PathVariable int id) {
         cursoService.eliminar(id);
     }
 }

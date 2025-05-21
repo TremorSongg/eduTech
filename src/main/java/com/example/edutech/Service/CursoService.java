@@ -15,31 +15,32 @@ public class CursoService {
     private CursoRepository cursoRepository;
 
     public List<Curso> obtenerCursos() {
-        // return cursoRepository.findAll();
-        throw new UnsupportedOperationException("Unimplemented method 'map'");
+        return cursoRepository.findAll();
     }
 
-    public Optional<Curso> buscarPorId(Long id) {
-        // return cursoRepository.findById(id);
-        throw new UnsupportedOperationException("Unimplemented method 'map'");
+    public Optional<Curso> buscarPorId(int id) {
+        return cursoRepository.findById(id);
     }
 
     public Curso guardar(Curso curso) {
-        // return cursoRepository.save(curso);
-        throw new UnsupportedOperationException("Unimplemented method 'map'");
+        return cursoRepository.save(curso);
     }
 
-    public Curso actualizar(Curso cursoActualizado) {
-        return cursoRepository.actualizar(cursoActualizado);
+    public Curso actualizar(int id, Curso cursoActualizado) {
+        Optional<Curso> optionalCurso = cursoRepository.findById(id);
+        if (optionalCurso.isPresent()) {
+            Curso cursoExistente = optionalCurso.get();
+            cursoExistente.setNombre(cursoActualizado.getNombre());
+            cursoExistente.setDescripcion(cursoActualizado.getDescripcion());
+            cursoExistente.setCupos(cursoActualizado.getCupos());
+            return cursoRepository.save(cursoExistente);
+        } else {
+            return null;
+        }
     }
 
-    public void eliminar(Long id) {
-        // cursoRepository.deleteById(id);
-        throw new UnsupportedOperationException("Unimplemented method 'map'");
-    }
-
-    public Curso actualizarStock(Curso c) {
-        return cursoRepository.controlStock(c);
+    public void eliminar(int id) {
+        cursoRepository.deleteById(id);
     }
 
 }
