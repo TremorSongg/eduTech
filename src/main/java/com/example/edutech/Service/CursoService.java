@@ -39,6 +39,19 @@ public class CursoService {
         }
     }
 
+        public Curso controlStock(int id, Curso cursoActualizado) {
+        Optional<Curso> optionalCurso = cursoRepository.findById(id);
+        if (optionalCurso.isPresent()) {
+            Curso cursoExistente = optionalCurso.get();
+            cursoExistente.setNombre(cursoActualizado.getNombre());
+            cursoExistente.setDescripcion(cursoActualizado.getDescripcion());
+            cursoExistente.setCupos(cursoActualizado.getCupos()-1);
+            return cursoRepository.save(cursoExistente);
+        } else {
+            return null;
+        }
+    }
+
     public void eliminar(int id) {
         cursoRepository.deleteById(id);
     }

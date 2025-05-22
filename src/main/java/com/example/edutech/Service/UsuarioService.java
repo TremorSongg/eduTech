@@ -20,7 +20,7 @@ public class UsuarioService {
     }
 
     //Metodo para buscar un usuario por id
-    public Optional<Usuario> buscarPorId(Long id) {
+    public Optional<Usuario> buscarPorId(int id) {
         return usuarioRepository.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class UsuarioService {
     }
 
     //Metodo para actualizar un usuario
-    public Usuario actualizar(Long id, Usuario usuarioActualizado) {
+    public Usuario actualizar(int id, Usuario usuarioActualizado) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isPresent()) {
             Usuario usuarioExistente = optionalUsuario.get();
@@ -49,7 +49,7 @@ public class UsuarioService {
     }
 
     //Metodo para eliminar un usuario
-    public void eliminar(Long id) {
+    public void eliminar(int id) {
         usuarioRepository.deleteById(id);
     }
 
