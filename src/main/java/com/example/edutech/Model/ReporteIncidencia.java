@@ -1,33 +1,27 @@
 package com.example.edutech.Model;
 
-import java.util.Optional;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 @AllArgsConstructor 
 @NoArgsConstructor 
 @Entity
-@Data
-
-public class Usuario {
+public class ReporteIncidencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String nombre;
-    private String email;
-    private String password;
+    private int usuarioId;
 
-    public static Optional<Usuario> map(Object o){
-        throw new UnsupportedOperationException("Unimplemented method 'map'");
-    }
-
-
+    private String mensaje;
+//Esto hace que se tome el enum como string en la base de datos
+    @Enumerated(EnumType.STRING)
+    private EstadoSolicitud estado;
 }
