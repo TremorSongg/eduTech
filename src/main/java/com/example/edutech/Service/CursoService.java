@@ -39,14 +39,18 @@ public class CursoService {
         }
     }
 
-        public Curso controlStock(int id, Curso cursoActualizado) {
+    public Curso controlStock(int id) {
         Optional<Curso> optionalCurso = cursoRepository.findById(id);
         if (optionalCurso.isPresent()) {
             Curso cursoExistente = optionalCurso.get();
-            cursoExistente.setNombre(cursoActualizado.getNombre());
-            cursoExistente.setDescripcion(cursoActualizado.getDescripcion());
-            cursoExistente.setCupos(cursoActualizado.getCupos()-1);
-            return cursoRepository.save(cursoExistente);
+            int cuposActuales = cursoExistente.getCupos();
+    
+            if (cuposActuales > 0) {
+                cursoExistente.setCupos(cuposActuales - 1);
+                return cursoRepository.save(cursoExistente);
+            } else {
+                throw new IllegalStateException("No hay cupos disponibles.");
+            }
         } else {
             return null;
         }
