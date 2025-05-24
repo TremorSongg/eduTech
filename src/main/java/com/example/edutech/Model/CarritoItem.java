@@ -20,9 +20,21 @@ public class CarritoItem {
     private String nombre;
     private int cantidad;
     private double precio;
+    private double subtotal;
 
-    public double getSubtotal() {
-        return cantidad * precio;
+    public CarritoItem(int cursoId, String nombre, int cantidad, double precio) {
+        this.cursoId = cursoId;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.subtotal = cantidad * precio;
     }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+        this.subtotal = cantidad * precio;
+    }
+
+    
 }
 

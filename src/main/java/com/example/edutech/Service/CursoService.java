@@ -60,4 +60,9 @@ public class CursoService {
         cursoRepository.deleteById(id);
     }
 
+    public void guardarCurso(Curso curso) {
+    cursoRepository.save(curso);
+}
+
+
 }

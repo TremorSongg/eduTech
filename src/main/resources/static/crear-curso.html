@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Curso</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background-color: #f3f0f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar {
+      justify-content: center;
+    }
+    .nav-link:hover {
+      color: #d8b4fe !important;
+    }
+    .header-right {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+    }
+    .btn-animado {
+      transition: all 0.3s ease-in-out;
+    }
+    .btn-animado:hover {
+      background-color: #a084dc;
+      color: white;
+      transform: scale(1.05);
+    }
+    footer {
+      background: #5b4b8a;
+      color: white;
+      padding: 2rem 0;
+      margin-top: auto;
+    }
+    footer a {
+      color: #e0d7f3;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    .form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .btn-primary {
+      background-color: #6a4dad;
+      border-color: #6a4dad;
+    }
+    .btn-primary:hover {
+      background-color: #5b4b8a;
+      border-color: #5b4b8a;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- Header -->
+  <header class="custom-header py-3 mb-4 shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- NAV IZQUIERDA -->
+      <nav class="d-flex gap-3 align-items-center">
+        <a href="index.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Inicio</a>
+        <a href="perfil.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Perfil</a>
+        <a href="cursos.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Cursos</a>
+        <a href="crear-curso.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Crear cursos</a>
+        <a href="notificaciones.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Notificaciones</a>
+        <a href="carrito.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Carrito</a>
+      </nav>
+
+      <!-- MENSAJE DE USUARIO A LA DERECHA -->
+      <span class="text-white fw-bold" id="mensaje"></span>
+    </div>
+  </header>
+
+  <!-- Usuario y logout -->
+  <div class="header-right text-end">
+    <span id="mensaje" class="me-3 fw-bold"></span>
+    <button onclick="cerrarSesion()" class="btn btn-outline-light btn-sm btn-animado">Cerrar sesión</button>
+  </div>
+
+  <main class="container py-5 flex-grow-1">
+    <div class="form-container">
+      <h2 class="mb-4 text-center">Agregar nuevo curso</h2>
+      
+      <form id="formCurso">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre del Curso</label>
+          <input type="text" class="form-control" id="nombre" required>
+        </div>
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea class="form-control" id="descripcion" rows="3" required></textarea>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" class="form-control" id="precio" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="cupos" class="form-label">Cupos</label>
+            <input type="number" class="form-control" id="cupos" required>
+          </div>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button type="submit" class="btn btn-primary btn-animado px-4">Agregar Curso</button>
+          <a href="cursos.html" class="btn btn-outline-secondary px-4">Cancelar</a>
+        </div>
+      </form>
+
+      <div id="mensaje-form" class="mt-3 text-center"></div>
+    </div>
+  </main>
+
+  <footer class="py-4">
+    <div class="container">
+      <div class="row justify-content-center">
+        <!-- Columna izquierda: Contacto -->
+        <div class="col-md-5 text-center mb-4 mb-md-0">
+          <p class="mb-2">📧 contacto@plataforma.cl</p>
+          <p class="mb-2">📞 +56 9 1234 5678</p>
+          <p class="mb-3">📍 Av. Ficticia 1234, Santiago, Chile</p>
+          <p class="mb-0">
+            <a href="#" class="text-decoration-none me-2">Facebook</a> |
+            <a href="#" class="text-decoration-none mx-2">Instagram</a> |
+            <a href="#" class="text-decoration-none ms-2">LinkedIn</a>
+          </p>
+        </div>
+
+        <!-- Columna derecha: Quiénes somos -->
+        <div class="col-md-5 text-center">
+          <p class="mb-2"><strong>¿Quiénes somos?</strong></p>
+          <p class="mb-3">Somos una plataforma educativa comprometida con la formación continua.</p>
+          <a href="contacto.html" class="btn btn-outline-light btn-animado">Formulario de contacto</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app_in.js"></script>
+  <script src="js/crear_curso.js"></script>
+</body>
+</html>
