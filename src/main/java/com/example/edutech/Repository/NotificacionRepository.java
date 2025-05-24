@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.edutech.Model.Notificacion;
 
 public interface NotificacionRepository extends JpaRepository<Notificacion, Integer>{
-    List<Notificacion> findbyUsuarioId(int usuarioId);
+    List<Notificacion> findByUsuarioId(int usuarioId);
 }

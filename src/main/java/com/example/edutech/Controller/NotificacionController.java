@@ -18,11 +18,7 @@ public class NotificacionController {
     private NotificacionService notificacionService;
 
     public NotificacionController(NotificacionService NotificacionService){
-        this.notificacionService = notificacionService;
-    }
-    @PostMapping
-    public Notificacion crear(@RequestBody Notificacion notificacion){ 
-        return notificacionService.crear(notificacion) ;
+        this.notificacionService = notificacionService; //Dice que no se usa pero sí se usa
     }
     
     @PostMapping
