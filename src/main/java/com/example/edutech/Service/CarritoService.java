@@ -9,21 +9,50 @@ import com.example.edutech.Model.Curso;
 
 @Service
 public class CarritoService {
+
     private Map<Integer, CarritoItem> carrito = new HashMap<>();
 
+    private final CursoService cursoService;
+
+    public CarritoService(CursoService cursoService) {
+        this.cursoService = cursoService;
+    }
+
     public void agregarCurso(Curso curso) {
-    carrito.compute(curso.getId(), (cursoId, item) -> { // cursoID esta dando problemas y le puse ignorar, asi de choro
+    int cursoId = curso.getId();
+    Curso cursoActual = cursoService.buscarPorId(cursoId)
+                          .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+
+    carrito.compute(cursoId, (id, item) -> {
+        int cantidadActualEnCarrito = (item != null) ? item.getCantidad() : 0;
+
+        if (cantidadActualEnCarrito >= cursoActual.getCupos()) {
+            throw new IllegalStateException("No hay suficientes cupos disponibles para este curso");
+        }
+
+        // Descontar stock en el modelo original
+        cursoActual.setCupos(cursoActual.getCupos() - 1);
+        cursoService.guardarCurso(cursoActual);
+
         if (item == null) {
-            return new CarritoItem(curso.getId(), curso.getNombre(), 1, curso.getPrecio());
+            return new CarritoItem(cursoId, cursoActual.getNombre(), 1, cursoActual.getPrecio());
         } else {
-            item.setCantidad(item.getCantidad() + 1);
+            item.setCantidad(cantidadActualEnCarrito + 1); // recalcula subtotal internamente
             return item;
         }
-        });
+    });
     }
 
     public void eliminarCurso(int cursoId) {
-        carrito.remove(cursoId);
+        CarritoItem eliminado = carrito.remove(cursoId);
+
+        if (eliminado != null) {
+            Curso curso = cursoService.buscarPorId(cursoId).orElse(null);
+            if (curso != null) {
+                curso.setCupos(curso.getCupos() + eliminado.getCantidad());
+                cursoService.guardarCurso(curso);
+            }
+        }
     }
 
     public Collection<CarritoItem> obtenerItems() {
@@ -31,10 +60,19 @@ public class CarritoService {
     }
 
     public double calcularTotal() {
-        return carrito.values().stream().mapToDouble(CarritoItem::getSubtotal).sum();
+        return carrito.values().stream()
+            .mapToDouble(CarritoItem::getSubtotal)
+            .sum();
     }
 
     public void vaciarCarrito() {
+        for (CarritoItem item : carrito.values()) {
+            Curso curso = cursoService.buscarPorId(item.getCursoId()).orElse(null);
+            if (curso != null) {
+                curso.setCupos(curso.getCupos() + item.getCantidad());
+                cursoService.guardarCurso(curso);
+            }
+        }
         carrito.clear();
     }
 }
