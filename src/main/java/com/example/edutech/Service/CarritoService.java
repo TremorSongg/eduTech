@@ -107,5 +107,31 @@ public void finalizarCompra() {
     
     // Limpiar sin devolver cupos
     carrito.clear();
+    }
+
+    public void actualizarCantidad(Integer cursoId, int nuevaCantidad) {
+    CarritoItem item = carrito.get(cursoId.intValue());
+
+    if (item == null) {
+        throw new NoSuchElementException("El curso no está en el carrito");
+    }
+
+    Curso curso = cursoService.buscarPorId(cursoId.intValue())
+                    .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+
+    int diferencia = nuevaCantidad - item.getCantidad();
+
+    if (diferencia > 0 && diferencia > curso.getCupos()) {
+        throw new IllegalStateException("No hay suficientes cupos disponibles");
+    }
+
+    // Ajustar cupos
+    curso.setCupos(curso.getCupos() - diferencia);
+    cursoService.guardarCurso(curso);
+
+    // Actualizar item
+    item.setCantidad(nuevaCantidad);
+    item.setSubtotal(item.getPrecio() * nuevaCantidad);
 }
+
 }

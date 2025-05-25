@@ -70,3 +70,31 @@ a:hover {
   transform: scale(1.05);
   transition: all 0.2s ease;
 }
+
+.encabezado-tabla {
+  background-color: #6a4dad; /* igual que header */
+  color: #f7f5fa;
+}
+
+.btn-eliminar {
+  background-color: #6f1785;  /* rojo violáceo */
+  color: white;
+  border: none;
+}
+
+.btn-eliminar:hover {
+  background-color: #e24e4e;
+  transform: scale(1.05);
+}
+
+.btn-editar {
+  background-color: #af93eb;
+  color: white;
+  border: none;
+}
+
+.btn-editar:hover {
+  background-color: #bed653;
+  transform: scale(1.05);
+}
+

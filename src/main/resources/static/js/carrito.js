@@ -23,7 +23,7 @@ async function loadCarrito() {
     // Si el carrito está vacío
     if (items.length === 0) {
       container.innerHTML = `
-        <div class="alert alert-info">
+        <div class="alert alert-info" style="background-color:rgb(158, 119, 184); color:rgb(255, 255, 255);>
           <h4 class="alert-heading">Tu carrito está vacío</h4>
           <p>Agrega cursos desde nuestra tienda para comenzar.</p>
           <a href="cursos.html" class="btn btn-primary">Ver Cursos</a>
@@ -42,8 +42,8 @@ async function loadCarrito() {
             <p class="mb-1">Precio unitario: $${item.precioUnitario?.toFixed(2) || '0.00'}</p>
             <p class="fw-bold">Subtotal: $${item.subtotal?.toFixed(2) || '0.00'}</p>
           </div>
-          <img src="${item.imagen || 'img/curso-default.png'}" alt="${item.nombre}" 
-               style="width: 100px; height: auto; object-fit: cover; border-radius: 5px;">
+          <img src="${item.imagen || 'https://img.icons8.com/stickers/50/classroom.png'}" alt="${item.nombre}" 
+               style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
         </div>
         <div class="item-actions">
           <button onclick="updateQuantity(${item.cursoId}, ${item.cantidad - 1})" 

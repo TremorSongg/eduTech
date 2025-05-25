@@ -31,10 +31,20 @@ public class CursoController {
         return cursoService.guardar(curso);
     }
 
-    @PutMapping("/actualizar/{id}")
-    public Curso actualizarCurso(@PathVariable int id, @RequestBody Curso curso) {
-        return cursoService.actualizar(id, curso);
-    }
+    @PutMapping("/{id}")
+public ResponseEntity<Curso> actualizarCurso(@PathVariable Integer id, @RequestBody Curso cursoActualizado) {
+    return cursoService.buscarPorId(id)
+        .map(curso -> {
+            curso.setNombre(cursoActualizado.getNombre());
+            curso.setDescripcion(cursoActualizado.getDescripcion());
+            curso.setPrecio(cursoActualizado.getPrecio());
+            curso.setCupos(cursoActualizado.getCupos());
+            cursoService.guardar(curso);
+            return ResponseEntity.ok(curso);
+        })
+        .orElse(ResponseEntity.notFound().build());
+}
+
 
     @DeleteMapping("/{id}")
     public void eliminarCurso(@PathVariable int id) {

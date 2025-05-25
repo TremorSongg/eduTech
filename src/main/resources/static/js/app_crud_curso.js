@@ -1,0 +1,94 @@
+const API_URL = '/api/v1/cursos';
+
+document.addEventListener('DOMContentLoaded', () => {
+  cargarCursos();
+
+  const form = document.getElementById('curso-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const id = document.getElementById('curso-id').value;
+    const nombre = document.getElementById('nombre').value.trim();
+    const descripcion = document.getElementById('descripcion').value.trim();
+    const precio = parseFloat(document.getElementById('precio').value);
+    const cupos = parseInt(document.getElementById('cupos').value);
+
+    const curso = { nombre, descripcion, precio, cupos };
+
+    try {
+      if (id) {
+        await fetch(`${API_URL}/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(curso)
+        });
+      } else {
+        await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(curso)
+        });
+      }
+
+      form.reset();
+      document.getElementById('curso-id').value = '';
+      cargarCursos();
+    } catch (err) {
+      console.error('Error al guardar curso:', err);
+      alert('Error al guardar el curso. Revisa la consola.');
+    }
+  });
+});
+
+async function cargarCursos() {
+  try {
+    const res = await fetch(API_URL);
+    const cursos = await res.json();
+    const tabla = document.getElementById('tabla-cursos');
+    tabla.innerHTML = '';
+
+    cursos.forEach(curso => {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${curso.id}</td>
+        <td>${curso.nombre}</td>
+        <td>${curso.descripcion || '-'}</td>
+        <td>$${curso.precio.toLocaleString()}</td>
+        <td>${curso.cupos}</td>
+        <td>
+          <button class="btn btn-editar btn-sm" onclick="editarCurso(${curso.id})">Editar</button>
+          <button class="btn btn-eliminar btn-sm" onclick="eliminarCurso(${curso.id})">Eliminar</button>
+        </td>
+      `;
+      tabla.appendChild(fila);
+    });
+  } catch (err) {
+    console.error('Error al cargar cursos:', err);
+  }
+}
+
+async function editarCurso(id) {
+  try {
+    const res = await fetch(`${API_URL}/${id}`);
+    const curso = await res.json();
+
+    document.getElementById('curso-id').value = curso.id;
+    document.getElementById('nombre').value = curso.nombre;
+    document.getElementById('descripcion').value = curso.descripcion || '';
+    document.getElementById('precio').value = curso.precio;
+    document.getElementById('cupos').value = curso.cupos;
+  } catch (err) {
+    console.error('Error al obtener curso:', err);
+  }
+}
+
+async function eliminarCurso(id) {
+  if (!confirm('¿Estás seguro de eliminar este curso?')) return;
+
+  try {
+    await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+    cargarCursos();
+  } catch (err) {
+    console.error('Error al eliminar curso:', err);
+  }
+}

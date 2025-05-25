@@ -109,4 +109,12 @@ public ResponseEntity<?> finalizarCompra() {
         carritoService.vaciarCarrito();
         return ResponseEntity.ok("Carrito vaciado correctamente");
     }
+
+    @PutMapping("/actualizar/{id}")
+public ResponseEntity<?> actualizarCantidad(@PathVariable Integer id, @RequestBody Map<String, Integer> payload) {
+    int cantidad = payload.get("cantidad");
+    carritoService.actualizarCantidad(id, cantidad);
+    return ResponseEntity.ok().build();
+}
+
 }
