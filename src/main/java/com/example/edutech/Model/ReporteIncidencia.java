@@ -1,5 +1,7 @@
 package com.example.edutech.Model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,4 +28,6 @@ public class ReporteIncidencia {
 //Esto hace que se tome el enum como string en la base de datos
     @Enumerated(EnumType.STRING)
     private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
+    //Para mostrar la fecha de creación
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 }
