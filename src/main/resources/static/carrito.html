@@ -4,9 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Carrito de Compras</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
+    body {
+      background-color: #f3f0f9;
+    }
+    .navbar {
+      justify-content: center;
+    }
+    .nav-link:hover {
+      color: #d8b4fe !important;
+    }
+    .header-right {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+    }
+    .btn-animado {
+      transition: all 0.3s ease-in-out;
+    }
+    .btn-animado:hover {
+      background-color: #a084dc;
+      color: white;
+      transform: scale(1.05);
+    }
+    footer {
+      background: #5b4b8a;
+      color: white;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+    footer a {
+      color: #e0d7f3;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
     .carrito-item {
       border-bottom: 1px solid #ccc;
       padding: 1rem;
@@ -25,23 +60,81 @@
       border-radius: 5px;
       margin-top: 2rem;
     }
+    .custom-header {
+      background: #5b4b8a;
+      color: white;
+    }
   </style>
 </head>
-<body class="container py-5">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>🛒 Carrito de Compras</h1>
-    <a href="cursos.html" class="btn btn-outline-primary">Volver a Cursos</a>
-  </div>
-  
-  <div id="carrito-container">
-    <div class="text-center my-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
-      </div>
-      <p>Cargando tu carrito...</p>
+<body>
+  <!-- Header -->
+  <header class="custom-header py-3 mb-4 shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- NAV IZQUIERDA -->
+      <nav class="d-flex gap-3 align-items-center">
+        <a href="index.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Inicio</a>
+        <a href="perfil.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Perfil</a>
+        <a href="cursos.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Cursos</a>
+        <a href="crear-curso.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Crear cursos</a>
+        <a href="notificaciones.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Notificaciones</a>
+        <a href="carrito.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Carrito</a>
+      </nav>
+
+      <!-- MENSAJE DE USUARIO A LA DERECHA -->
+      <span class="text-white fw-bold" id="mensaje"></span>
     </div>
+  </header>
+
+  <!-- Usuario y logout -->
+  <div class="header-right text-end">
+    <span id="mensaje" class="me-3 fw-bold"></span>
+    <button onclick="cerrarSesion()" class="btn btn-outline-light btn-sm btn-animado">Cerrar sesión</button>
   </div>
 
+  <!-- Contenido principal -->
+  <main class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>🛒 Carrito de Compras</h1>
+      <a href="cursos.html" class="btn btn-outline-primary btn-animado">Volver a Cursos</a>
+    </div>
+    
+    <div id="carrito-container">
+      <div class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p>Cargando tu carrito...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Columna izquierda: Contacto -->
+            <div class="col-md-5 text-center mb-4 mb-md-0">
+                <p class="mb-2">📧 contacto@plataforma.cl</p>
+                <p class="mb-2">📞 +56 9 1234 5678</p>
+                <p class="mb-3">📍 Av. Ficticia 1234, Santiago, Chile</p>
+                <p class="mb-0">
+                    <a href="#" class="text-decoration-none me-2">Facebook</a> |
+                    <a href="#" class="text-decoration-none mx-2">Instagram</a> |
+                    <a href="#" class="text-decoration-none ms-2">LinkedIn</a>
+                </p>
+            </div>
+
+            <!-- Columna derecha: Quiénes somos -->
+            <div class="col-md-5 text-center">
+                <p class="mb-2"><strong>¿Quiénes somos?</strong></p>
+                <p class="mb-3">Somos una plataforma educativa comprometida con la formación continua. Visión, alcance y desarrollo profesional nos definen.</p>
+                <a href="contacto.html" class="btn btn-outline-dark btn-animado">Formulario de contacto</a>
+            </div>
+        </div>
+    </div>
+  </footer>
+
   <script src="js/carrito.js"></script>
+  <script src="js/app_in.js"></script>
 </body>
 </html>

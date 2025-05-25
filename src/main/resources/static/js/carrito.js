@@ -16,7 +16,9 @@ async function loadCarrito() {
     const response = await fetch("/api/v1/carrito");
     if (!response.ok) throw new Error("Error al cargar el carrito");
     
-    const { items, total } = await response.json();
+    const data = await response.json();
+    const items = data.items || [];
+    const total = data.total || 0;
 
     // Si el carrito está vacío
     if (items.length === 0) {
@@ -185,9 +187,11 @@ async function checkout() {
     });
     
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al procesar la compra");
+      const error = await response.text();
+      throw new Error(error);
     }
+    
+    const data = await response.json();
     
     // Mostrar mensaje de éxito
     await Swal.fire({

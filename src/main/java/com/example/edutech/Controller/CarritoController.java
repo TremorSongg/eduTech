@@ -1,11 +1,13 @@
 package com.example.edutech.Controller;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.edutech.Model.CarritoItem;
 import com.example.edutech.Model.Curso;
 import com.example.edutech.Service.CarritoService;
 import com.example.edutech.Service.CursoService;
@@ -19,6 +21,31 @@ public class CarritoController {
 
     @Autowired
     private CursoService cursoService;
+
+    @PostMapping("/comprar")
+public ResponseEntity<?> finalizarCompra() {
+    try {
+        // Obtener items del carrito
+        Collection<CarritoItem> items = carritoService.obtenerItems();
+        
+        if (items.isEmpty()) {
+            return ResponseEntity.badRequest().body("El carrito está vacío");
+        }
+        
+        // Procesar compra
+        carritoService.finalizarCompra();
+        
+        // Respuesta simple
+        Map<String, Object> response = new HashMap<>();
+        response.put("mensaje", "Compra realizada con éxito. ¡Gracias por su compra!");
+        response.put("total", carritoService.calcularTotal());
+        
+        return ResponseEntity.ok(response);
+        
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body("Error al procesar la compra: " + e.getMessage());
+        }
+    }
 
     @PostMapping("/agregar/{id}")
     public ResponseEntity<?> agregarCurso(@PathVariable Integer id) {
@@ -41,11 +68,26 @@ public class CarritoController {
 
     @GetMapping
     public ResponseEntity<?> verCarrito() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("items", carritoService.obtenerItems());
-        response.put("total", carritoService.calcularTotal());
-        return ResponseEntity.ok(response);
-    }
+    Collection<CarritoItem> items = carritoService.obtenerItems();
+    double total = carritoService.calcularTotal();
+    
+    // Crear lista de items con la estructura esperada por el frontend
+    List<Map<String, Object>> itemsResponse = items.stream().map(item -> {
+        Map<String, Object> itemMap = new HashMap<>();
+        itemMap.put("cursoId", item.getCursoId());
+        itemMap.put("nombre", item.getNombre());
+        itemMap.put("cantidad", item.getCantidad());
+        itemMap.put("precio", item.getPrecio()); // Asegurar que el precio unitario se envía
+        itemMap.put("precioUnitario", item.getPrecio()); // Alternativa para compatibilidad
+        itemMap.put("subtotal", item.getSubtotal());
+        return itemMap;
+    }).collect(Collectors.toList());
+    
+    Map<String, Object> response = new HashMap<>();
+    response.put("items", itemsResponse);
+    response.put("total", total);
+    return ResponseEntity.ok(response);
+}
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarItem(@PathVariable Integer id) {

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.example.edutech.Model.CarritoItem;
 import com.example.edutech.Model.Curso;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CarritoService {
 
@@ -56,8 +58,16 @@ public class CarritoService {
     }
 
     public Collection<CarritoItem> obtenerItems() {
-        return carrito.values();
-    }
+    // Asegurarse que cada item tenga el precio unitario
+    carrito.values().forEach(item -> {
+        Curso curso = cursoService.buscarPorId(item.getCursoId()).orElse(null);
+        if (curso != null) {
+            item.setPrecio(curso.getPrecio()); // Asegurar que el precio esté actualizado
+            item.setSubtotal(item.getCantidad() * item.getPrecio()); // Recalcular subtotal
+        }
+    });
+    return carrito.values();
+}
 
     public double calcularTotal() {
         return carrito.values().stream()
@@ -75,4 +85,27 @@ public class CarritoService {
         }
         carrito.clear();
     }
+
+    @Transactional
+public void finalizarCompra() {
+    // 1. Verificar y actualizar cupos de cada curso
+    for (CarritoItem item : carrito.values()) {
+        Curso curso = cursoService.buscarPorId(item.getCursoId())
+                          .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+        
+        // Validar que haya suficiente cupo (aunque ya se validó al agregar)
+        if (curso.getCupos() < item.getCantidad()) {
+            throw new IllegalStateException("No hay suficientes cupos para: " + curso.getNombre());
+        }
+        
+        // Actualizar cupos (no necesitamos guardar aquí porque ya está en el método agregar)
+    }
+    
+    // 2. Vaciar el carrito (esto ya devuelve los cupos, así que lo modificamos)
+    // Primero guardamos el total para la respuesta
+    double totalCompra = calcularTotal();
+    
+    // Limpiar sin devolver cupos
+    carrito.clear();
+}
 }
