@@ -22,6 +22,7 @@ public class CarritoItem {
     private double precio;
     private double subtotal;
 
+    // Constructor para crear un nuevo item en el carrito
     public CarritoItem(int cursoId, String nombre, int cantidad, double precio) {
         this.cursoId = cursoId;
         this.nombre = nombre;
@@ -30,6 +31,7 @@ public class CarritoItem {
         this.subtotal = cantidad * precio;
     }
 
+    // Actualiza el subtotal al cambiar la cantidad
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
         this.subtotal = cantidad * precio;

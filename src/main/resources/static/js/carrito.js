@@ -3,7 +3,7 @@ async function loadCarrito() {
   try {
     const container = document.getElementById("carrito-container");
     
-    // Mostrar spinner de carga
+    // Mostrar spinner de carga, esto es opcional pero mejora la UX
     container.innerHTML = `
       <div class="text-center my-5">
         <div class="spinner-border text-primary" role="status">
@@ -13,9 +13,11 @@ async function loadCarrito() {
       </div>
     `;
 
+    // Hacer la petición al backend para obtener el carrito, aseguramos que url de la api sea correcta
     const response = await fetch("/api/v1/carrito");
     if (!response.ok) throw new Error("Error al cargar el carrito");
     
+    // Parsear la respuesta JSON, o sea verificamos que los datos sean correctos y que la estructura sea la esperada 
     const data = await response.json();
     const items = data.items || [];
     const total = data.total || 0;
@@ -63,6 +65,7 @@ async function loadCarrito() {
     `).join('');
 
     // Agregar total y botones de acción
+    // tofixed: agregar estilos y mejorar la presentación
     container.innerHTML = itemsHTML + `
       <div class="total-section">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -94,7 +97,8 @@ async function loadCarrito() {
   }
 }
 
-// Actualizar cantidad de un item
+// Actualizamos cantidad de un item
+// Esta función recibe el ID del curso y la nueva cantidad
 async function updateQuantity(cursoId, newQuantity) {
   if (newQuantity < 1) return;
   
@@ -104,7 +108,7 @@ async function updateQuantity(cursoId, newQuantity) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cantidad: newQuantity })
     });
-    
+    // Verificamos que la respuesta sea correcta, si no lo es damos un error
     if (!response.ok) throw new Error(await response.text());
     loadCarrito();
   } catch (error) {
@@ -113,6 +117,7 @@ async function updateQuantity(cursoId, newQuantity) {
 }
 
 // Eliminar item del carrito
+// async function removeFromCart es una función que recibe el ID del curso a eliminar, proviene de un botón en el HTML
 async function removeFromCart(cursoId) {
   const { isConfirmed } = await Swal.fire({
     title: "¿Eliminar este curso?",
@@ -139,6 +144,7 @@ async function removeFromCart(cursoId) {
 }
 
 // Vaciar todo el carrito
+// Esta función pregunta al usuario si realmente quiere vaciar el carrito y si confirma, hace una petición al backend para vaciarlo
 async function clearCart() {
   const { isConfirmed } = await Swal.fire({
     title: "¿Vaciar el carrito?",
@@ -149,6 +155,7 @@ async function clearCart() {
     cancelButtonText: "Cancelar"
   });
   
+  // Si el usuario no confirma, salimos de la función
   if (!isConfirmed) return;
   
   try {
@@ -165,6 +172,7 @@ async function clearCart() {
 }
 
 // Finalizar compra (checkout)
+// Esta función pregunta al usuario si realmente quiere finalizar la compra, si confirma, hace una petición al backend para terminar la compra
 async function checkout() {
   const { isConfirmed } = await Swal.fire({
     title: "¿Finalizar compra?",
@@ -194,6 +202,7 @@ async function checkout() {
     const data = await response.json();
     
     // Mostrar mensaje de éxito
+    // Sqal es para mostrar mensajes bonitos y personalizados no como alertas
     await Swal.fire({
       title: "¡Compra exitosa!",
       html: `
@@ -224,4 +233,5 @@ async function checkout() {
 }
 
 // Cargar el carrito cuando la página se abre
+// Esto asegura que el carrito se muestre al cargar la página
 document.addEventListener("DOMContentLoaded", loadCarrito);

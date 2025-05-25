@@ -1,5 +1,8 @@
+// Aqui se define la lógica para manejar el CRUD de cursos
+// src/main/resources/static/js/app_crud_curso.js
 const API_URL = '/api/v1/cursos';
 
+// Esta funcion sirve para cargar los cursos al iniciar la página
 document.addEventListener('DOMContentLoaded', () => {
   cargarCursos();
 
@@ -40,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Esta función carga los cursos desde la API y los muestra en una tabla (td)
 async function cargarCursos() {
   try {
     const res = await fetch(API_URL);
@@ -67,6 +71,7 @@ async function cargarCursos() {
   }
 }
 
+// Esta función edita un curso específico al hacer clic en el botón "Editar", toma los datos del curso y los coloca en el formulario para que el usuario pueda modificarlos
 async function editarCurso(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`);
@@ -82,6 +87,7 @@ async function editarCurso(id) {
   }
 }
 
+// Esta función elimina un curso específico al hacer clic en el botón "Eliminar", muestra una confirmación antes de eliminarlos
 async function eliminarCurso(id) {
   if (!confirm('¿Estás seguro de eliminar este curso?')) return;
 

@@ -20,6 +20,7 @@ public class CarritoService {
         this.cursoService = cursoService;
     }
 
+    // Agregar un curso al carrito
     public void agregarCurso(Curso curso) {
     int cursoId = curso.getId();
     Curso cursoActual = cursoService.buscarPorId(cursoId)
