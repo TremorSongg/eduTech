@@ -10,8 +10,11 @@ import com.example.edutech.Service.ReporteIncidenciaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
@@ -26,10 +29,10 @@ public class ReporteIncidenciaController {
 
     //Crear nueva solicitud
     @PostMapping("/crear")
-    public ResponseEntity<ReporteIncidencia> crearSolicitud(@RequestBody Map<String, String> datos ) {
+    public ResponseEntity<ReporteIncidencia> crearSolicitud(@RequestBody Map<String, Object> datos ) {
         try {
-            int usuarioId = Integer.parseInt(datos.get("usuarioId"));
-            String mensaje = datos.get("mensaje");
+            int usuarioId = (int)(datos.get("usuarioId"));
+            String mensaje = (String)datos.get("mensaje");
 
             ReporteIncidencia solicitud = new ReporteIncidencia();
             solicitud.setUsuarioId(usuarioId);
@@ -57,5 +60,14 @@ public class ReporteIncidenciaController {
         }
 
         }
-
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<ReporteIncidencia>> getByUsuario(@PathVariable String usuarioId) {
+        try {
+            int id = Integer.parseInt(usuarioId); // Convierte String a int
+            List<ReporteIncidencia> reportes = reporteIncidenciaService.obtenerPorUsuario(id);
+            return ResponseEntity.ok(reportes);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 }
