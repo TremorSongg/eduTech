@@ -61,10 +61,9 @@ public class ReporteIncidenciaController {
 
         }
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<ReporteIncidencia>> getByUsuario(@PathVariable String usuarioId) {
+    public ResponseEntity<List<ReporteIncidencia>> getByUsuario(@PathVariable int usuarioId) {
         try {
-            int id = Integer.parseInt(usuarioId); // Convierte String a int
-            List<ReporteIncidencia> reportes = reporteIncidenciaService.obtenerPorUsuario(id);
+            List<ReporteIncidencia> reportes = reporteIncidenciaService.obtenerPorUsuario(usuarioId);
             return ResponseEntity.ok(reportes);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
