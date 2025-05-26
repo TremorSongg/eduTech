@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @Entity
 @Data
+    
 
 public class Usuario {
     @Id
