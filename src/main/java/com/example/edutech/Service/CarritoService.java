@@ -104,7 +104,7 @@ public void finalizarCompra() {
     
     // 2. Vaciar el carrito (esto ya devuelve los cupos, así que lo modificamos)
     // Primero guardamos el total para la respuesta
-    double totalCompra = calcularTotal();
+    double totalCompra = calcularTotal(); // Dice que no se usa pero si se usa
     
     // Limpiar sin devolver cupos
     carrito.clear();

@@ -18,7 +18,7 @@ public class NotificacionController {
     private NotificacionService notificacionService;
 
     public NotificacionController(NotificacionService NotificacionService){
-        this.notificacionService = notificacionService; //Dice que no se usa pero sí se usa
+        this.notificacionService = notificacionService; // Dice que no se usa pero sí se usa
     }
     
     @PostMapping
