@@ -60,9 +60,13 @@ public class ReporteIncidenciaController {
         }
 
         }
+        //muestra mediante GET, los reportes de usuarios con el mismo id
     @GetMapping("/usuario/{usuarioId}")
+    //ResponseEntity es el esqueleto de los datos con lista de reportes de incidencia
+    //pathvariable consulta la base de datos mediante JPA
     public ResponseEntity<List<ReporteIncidencia>> getByUsuario(@PathVariable int usuarioId) {
         try {
+            // aquí obtiene la lista de datos de reporte y los une al esqueleto
             List<ReporteIncidencia> reportes = reporteIncidenciaService.obtenerPorUsuario(usuarioId);
             return ResponseEntity.ok(reportes);
         } catch (IllegalArgumentException e) {
