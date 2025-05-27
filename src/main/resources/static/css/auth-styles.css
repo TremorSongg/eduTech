@@ -1,14 +1,14 @@
 /* auth-styles.css */
 .auth-container {
-  margin: 0;
-  padding: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   font-family: 'Jost', sans-serif;
-  background: linear-gradient(to bottom, #6a4dad, #8b76bd, #ddd3f5);
+  position: relative;
+  z-index: 1;
 }
+
 
 .auth-form-wrapper {
   width: 350px;
@@ -99,4 +99,12 @@
 
 .auth-toggle:checked ~ .auth-signup .auth-form-label {
   transform: scale(.6);
+}
+
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #6a4dad, #af93eb);
+  z-index: -1;
 }

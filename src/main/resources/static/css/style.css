@@ -98,3 +98,57 @@ a:hover {
   transform: scale(1.05);
 }
 
+#mensaje {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #6a4dad; /* morado principal */
+  color: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #af93eb;
+}
+
+.user-info {
+  flex-grow: 1;
+}
+
+.user-name,
+.user-email {
+  margin: 0;
+  color: white;
+}
+
+.logout-wrapper {
+  margin-left: auto;
+}
+
+.logout-btn {
+  padding: 6px 12px;
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #a084dc;
+  color: white;
+  border-color: #a084dc;
+}
+

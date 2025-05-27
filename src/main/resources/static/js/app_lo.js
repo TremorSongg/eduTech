@@ -51,6 +51,7 @@ function login(){
   .then(data => {
         if (data.result === "OK") {
             sessionStorage.setItem("nombreUsuario", data.nombre);
+            sessionStorage.setItem("emailUsuario", data.email);
             window.location.href = "/index.html";
         } else {
             alert("Acceso denegado.");

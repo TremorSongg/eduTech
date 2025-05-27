@@ -31,6 +31,7 @@ public class UsuarioController {
         if (user.isPresent()) {
             response.put("result", "OK");
             response.put("nombre", user.get().getNombre());
+            response.put("email", user.get().getEmail());
         } else {
             response.put("result", "Error");
         }
