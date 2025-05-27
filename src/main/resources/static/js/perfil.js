@@ -1,5 +1,3 @@
-// perfil.js - Muestra el perfil del usuario en el centro de la página
-
 // Función para capitalizar nombres
 function capitalizar(str) {
   if (!str) return str;
@@ -11,7 +9,7 @@ function renderizarPerfilCompleto() {
   // Obtener datos del usuario
   const nombre = sessionStorage.getItem("nombreUsuario");
   const email = sessionStorage.getItem("emailUsuario");
-  const userId = sessionStorage.getItem("userId"); // Asegúrate de guardar esto al hacer login
+  const userId = sessionStorage.getItem("userId"); 
 
   // Verificar si hay un usuario logueado
   if (nombre && email) {
@@ -62,7 +60,7 @@ function renderizarPerfilCompleto() {
   }
 }
 
-// Función para cerrar sesión (puedes reutilizar la existente)
+// Función para cerrar sesión
 function cerrarSesion() {
   sessionStorage.clear();
   window.location.href = "/login.html";
