@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!response.ok) throw new Error("Error al cargar reportes");
         
         const reportes = await response.json();
+        
         renderizarNotificaciones(reportes);
     } catch (error) {
         console.error("Error:", error);
@@ -25,6 +26,7 @@ function renderizarNotificaciones(reportes = []) {
     // Agregar reportes
     reportes.forEach(reporte => {
         if (filaVacia) filaVacia.style.display = 'none';
+
         
         tbody.innerHTML += `
             <tr>
