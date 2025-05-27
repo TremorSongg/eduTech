@@ -16,9 +16,9 @@ header {
 footer {
   background-color: #2f1d53;
   color: white;
-  padding: 2rem 1rem;
+  padding: 1rem 0.5rem;
   margin-top: 4rem;
-  text-align: center;
+  text-align: left;
 }
 
 footer a {
@@ -42,7 +42,7 @@ footer a:hover {
 }
 
 .container {
-  max-width: 960px;
+  max-width: 1080px;
   margin: auto;
 }
 

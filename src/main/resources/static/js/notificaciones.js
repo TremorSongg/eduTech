@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const usuarioId = 2; 
+    const usuarioId = 1; 
     
     try {
         const response = await fetch(`/api/v1/reportes/usuario/${usuarioId}`);
