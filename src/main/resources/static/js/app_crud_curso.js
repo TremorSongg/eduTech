@@ -71,7 +71,8 @@ async function cargarCursos() {
   }
 }
 
-// Esta función edita un curso específico al hacer clic en el botón "Editar", toma los datos del curso y los coloca en el formulario para que el usuario pueda modificarlos
+// Esta función edita un curso específico al hacer clic en el botón "Editar",
+// toma los datos del curso y los coloca en el formulario para que el usuario pueda modificarlos
 async function editarCurso(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`);
