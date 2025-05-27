@@ -21,19 +21,25 @@ public class NotificacionController {
         this.notificacionService = notificacionService; // Dice que no se usa pero sí se usa
     }
     
+    //Método utiliza POST desde la ruta /notificaciones
     @PostMapping
+    // Se reciben los datos desde el front y se transforman a formato JSON
     public ResponseEntity<String> crearNotificacion(@RequestBody Map<String, Object> datos) {
         try {
+            //se obtienen los "datos" y se formatean a int y string
             int usuarioId = (int) datos.get("usuarioId");
             String mensaje = (String) datos.get("mensaje");
-
+            //se construye notificación como objeto que contiene los datos
             Notificacion notificacion = new Notificacion();
             notificacion.setUsuarioId(usuarioId);
             notificacion.setMensaje(mensaje);
 
+            //Guarda ek objeto en la base de datos con JPA
             notificacionService.crear(notificacion);
+            //confirma
             return ResponseEntity.ok("Notificación Creada");
         } catch (Exception e) {
+            //deniega en caso de error
             return ResponseEntity.badRequest().body("Datos inválidos" + e.getMessage());
         }
 
