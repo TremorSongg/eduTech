@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const usuarioId = 1; 
+    const usuarioId = 2; 
     
     try {
         const response = await fetch(`/api/v1/reportes/usuario/${usuarioId}`);
@@ -21,27 +21,34 @@ function renderizarNotificaciones(reportes = []) {
     const filaVacia = document.getElementById('sin-notificaciones');
     
     // Limpiar tabla (excepto fila vacía)
-    tbody.querySelectorAll('tr:not(#sin-notificaciones)').forEach(row => row.remove());
-    
+    tbody.innerHTML = ''; // Limpiar el contenido del tbody
+
     // Agregar reportes
     reportes.forEach(reporte => {
-        if (filaVacia) filaVacia.style.display = 'none';
+        const tr = document.createElement('tr');
 
-        
-        tbody.innerHTML += `
-            <tr>
-                <td><span class="badge bg-primary">Reporte #${reporte.id}</span></td>
-                <td>${reporte.mensaje || "Sin descripción"}</td>
-                <td>${reporte.fechaCreacion || "Fecha no disponible"}</td>
-                <td><span class="badge ${reporte.estado === 'PENDIENTE' ? 'bg-warning' : 'bg-success'}">
-                    ${reporte.estado}
-                </span></td>
-            </tr>
+        const tipoBadge = document.createElement('span');
+        tipoBadge.className = 'badge bg-primary';
+        tipoBadge.textContent = `Reporte #${reporte.id}`;
+
+        const estadoBadge = document.createElement('span');
+        estadoBadge.className = reporte.estado === 'PENDIENTE' ? 'badge bg-warning' : 'badge bg-success';
+        estadoBadge.textContent = reporte.estado;
+
+        tr.innerHTML = `
+            <td>${tipoBadge.outerHTML}</td>
+            <td>${reporte.mensaje || "Sin descripción"}</td>
+            <td>${reporte.fechaCreacion || "Fecha no disponible"}</td>
+            <td>${estadoBadge.outerHTML}</td>
         `;
+
+        tbody.appendChild(tr);
     });
 
     // Mostrar mensaje si no hay datos
     if (reportes.length === 0 && filaVacia) {
         filaVacia.style.display = '';
+    } else if (filaVacia) {
+        filaVacia.style.display = 'none'; // Ocultar fila vacía si hay reportes
     }
 }
