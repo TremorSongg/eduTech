@@ -6,6 +6,7 @@
   <title>Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 
   <style>
@@ -45,6 +46,7 @@
       text-decoration: underline;
     }
   </style>
+  <body class="d-flex flex-column min-vh-100">
 <header class="custom-header py-3 mb-4 shadow">
   <div class="container d-flex justify-content-between align-items-center">
     <!-- NAV IZQUIERDA -->
@@ -56,15 +58,16 @@
       <a href="notificaciones.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Notificaciones</a>
       <a href="carrito.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Carrito</a>
       <a href="reporteIncidencias.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Reporte</a>
+      <a href="acerca-de.html" class="text-white text-decoration-none btn btn-sm btn-outline-light">Nosotros</a>
     </nav>
 
     <!-- MENSAJE DE USUARIO A LA DERECHA -->
-    <span class="text-white fw-bold" id="mensaje"></span>
+    <span class="text-white fw-bold" id="mensajeUsuario"></span>
   </div>
 </header>
 
   <!-- Body -->
-  <main class="container mt-4">
+  <main class="container mt-4 flex-grow-1">
     <h1 class="mb-4">Notificaciones</h1>
     
     <!-- Tabla unificada para ambos tipos -->
@@ -93,30 +96,27 @@
   </main>
 
   <!-- Footer -->
-  <footer class="py-4">
+  <footer class="py-3">
     <div class="container">
-        <div class="row justify-content-center"> <!-- Centra las columnas en la fila -->
-            <!-- Columna izquierda: Contacto -->
-            <div class="col-md-5 text-center mb-4 mb-md-0"> <!-- Ajusta el ancho con col-md-5 -->
-                <p class="mb-2">📧 contacto@plataforma.cl</p>
-                <p class="mb-2">📞 +56 9 1234 5678</p>
-                <p class="mb-3">📍 Av. Ficticia 1234, Santiago, Chile</p>
-                <p class="mb-0">
-                    <a href="#" class="text-decoration-none me-2">Facebook</a> |
-                    <a href="#" class="text-decoration-none mx-2">Instagram</a> |
-                    <a href="#" class="text-decoration-none ms-2">LinkedIn</a>
-                </p>
+      <div class="row align-items-center">
+        <div class="col-12">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-3">
+            <span>E-mail: 📧 contacto@plataforma.cl</span>
+            <span class="d-none d-md-block">|</span>
+            <span>Teléfono: 📞 +56 9 1234 5678</span>
+            <span class="d-none d-md-block">|</span>
+            <span>Dirección:📍 Av. Ficticia 1234, Santiago, Chile</span>
+            <span class="d-none d-md-block">|</span>
+            <div class="d-flex gap-4">
+              <a href="#" class="text-decoration-none px-2"><i class="fab fa-facebook"></i></a>
+              <a href="#" class="text-decoration-none px-2"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-decoration-none px-2"><i class="fab fa-linkedin"></i></a>
             </div>
-
-            <!-- Columna derecha: Quiénes somos -->
-            <div class="col-md-5 text-center"> <!-- Ajusta el ancho con col-md-5 -->
-                <p class="mb-2"><strong>¿Quiénes somos?</strong></p>
-                <p class="mb-3">Somos una plataforma educativa comprometida con la formación continua. Visión, alcance y desarrollo profesional nos definen.</p>
-                <a href="contacto.html" class="btn btn-outline-dark btn-animado">Formulario de contacto</a>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-</footer>
+  </footer>
 
   <script src="js/notificaciones.js"></script>
   <script src="js/app_in.js"></script>

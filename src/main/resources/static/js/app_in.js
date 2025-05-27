@@ -25,7 +25,7 @@ function renderizarPerfil() {
     `;
     
     // Agregar el perfil al mensaje (o donde lo necesites)
-    const mensajeDiv = document.getElementById("mensaje");
+    const mensajeDiv = document.getElementById("mensajeUsuario");
     mensajeDiv.innerHTML = ""; // Limpiar el contenido previo
     mensajeDiv.appendChild(contenedorPerfil);
   }
