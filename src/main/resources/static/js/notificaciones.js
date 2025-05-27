@@ -2,11 +2,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const usuarioId = 1; 
     
     try {
+        //Se obtienen los reportes con un fetch a la ruta
         const response = await fetch(`/api/v1/reportes/usuario/${usuarioId}`);
         if (!response.ok) throw new Error("Error al cargar reportes");
         
         const reportes = await response.json();
-        
+        //llama  a la función y si hay error muestra mensaje de error
         renderizarNotificaciones(reportes);
     } catch (error) {
         console.error("Error:", error);
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
     }
 });
-
+//obtiene el cuerpo de la tabla tbody
 function renderizarNotificaciones(reportes = []) {
     const tbody = document.getElementById('tabla-notificaciones');
     const filaVacia = document.getElementById('sin-notificaciones');
@@ -23,7 +24,7 @@ function renderizarNotificaciones(reportes = []) {
     // Limpiar tabla (excepto fila vacía)
     tbody.innerHTML = ''; // Limpiar el contenido del tbody
 
-    // Agregar reportes
+    // Agregar reportes a medida que se van generando
     reportes.forEach(reporte => {
         const tr = document.createElement('tr');
 
@@ -45,7 +46,7 @@ function renderizarNotificaciones(reportes = []) {
         tbody.appendChild(tr);
     });
 
-    // Mostrar mensaje si no hay datos
+    // Mostrar esta fila y mensaje si no hay reportes actualmente
     if (reportes.length === 0 && filaVacia) {
         filaVacia.style.display = '';
     } else if (filaVacia) {

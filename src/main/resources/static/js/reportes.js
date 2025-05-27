@@ -1,3 +1,4 @@
+//busca los datos del formulario html
 document.getElementById('form-reporte').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -9,6 +10,7 @@ document.getElementById('form-reporte').addEventListener('submit', async (e) => 
     };
 
     try {
+        //hace petición POST en la ruta para crear y se define formato JSON
         const response = await fetch('/api/v1/reportes/crear', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
