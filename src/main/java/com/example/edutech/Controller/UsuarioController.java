@@ -30,6 +30,7 @@ public class UsuarioController {
         Map<String, String> response = new HashMap<>();
         if (user.isPresent()) {
             response.put("result", "OK");
+            response.put("id", String.valueOf(user.get().getId()));
             response.put("nombre", user.get().getNombre());
             response.put("email", user.get().getEmail());
         } else {
