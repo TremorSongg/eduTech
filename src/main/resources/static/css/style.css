@@ -175,3 +175,7 @@ a:hover {
   width: 25px;
   text-align: center;
 }
+
+.text-purple { color: #5b4b8a; }
+.card { transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
