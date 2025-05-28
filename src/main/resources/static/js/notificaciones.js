@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const usuarioId = 1; 
     
     try {
-        //Se obtienen los reportes con un fetch a la ruta
+        //se obtienen los reportes con un fetch a la ruta
         const response = await fetch(`/api/v1/reportes/usuario/${usuarioId}`);
         if (!response.ok) throw new Error("Error al cargar reportes");
         
@@ -29,7 +29,7 @@ function renderizarNotificaciones(reportes = []) {
         const tr = document.createElement('tr');
 
         const tipoBadge = document.createElement('span');
-        tipoBadge.className = 'badge bg-primary';
+        tipoBadge.className = 'badge bg-primary'; //punto de mejora evaluación 3, actualmente no está en uso ya que estadoSolicitud tiene sólo 2 valores y bg-primary apunta a un 3er valor
         tipoBadge.textContent = `Reporte #${reporte.id}`;
 
         const estadoBadge = document.createElement('span');
