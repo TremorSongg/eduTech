@@ -40,11 +40,34 @@ function agregarAlCarrito(idCurso) {
   })
     .then(response => {
       if (response.ok) {
-        alert("Curso agregado al carrito");
+        Swal.fire({
+        title: '¡Éxito!',
+        text: 'Curso agregado al carrito',
+        icon: 'success',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }
+      });
         fetchCursos(); // actualiza cupos
       } else {
-        alert("No se pudo agregar el curso al carrito");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo agregar el curso al carrito',
+          confirmButtonText: 'Entendido'
+        });
       }
     })
-    .catch(error => console.error("Error al agregar al carrito:", error));
+    .catch(error => {
+      console.error("Error al agregar al carrito:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Ocurrió un error al comunicarse con el servidor',
+        confirmButtonText: 'Entendido'
+      });
+    });
 }
