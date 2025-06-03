@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/notificaciones")
+@RequestMapping("/api/v1/notificaciones")
 public class NotificacionController {
     
     private NotificacionService notificacionService;
