@@ -17,7 +17,7 @@ public class NotificacionController {
     
     private NotificacionService notificacionService;
 
-    public NotificacionController(NotificacionService NotificacionService){
+    public NotificacionController(NotificacionService notificacionService){
         this.notificacionService = notificacionService; // Dice que no se usa pero sí se usa
     }
     
