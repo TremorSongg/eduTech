@@ -21,15 +21,27 @@ function renderizarNotificaciones(reportes = []) {
     const tbody = document.getElementById('tabla-notificaciones');
     const filaVacia = document.getElementById('sin-notificaciones');
     
-    // Limpiar tabla (excepto fila vacía)
-    tbody.innerHTML = ''; // Limpiar el contenido del tbody
+    // Limpia tabla exepto las filas vacias
+    tbody.innerHTML = ''; // Limpia el contenido del tbody
 
-    // Agregar reportes a medida que se van generando
+    // agrega lso reportes a medida que se van generando
     reportes.forEach(reporte => {
         const tr = document.createElement('tr');
 
+        // Formatear fecha
+        const fechaFormateada = reporte.fechaCreacion 
+            ? new Date(reporte.fechaCreacion).toLocaleString('es-CL', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+              })
+            : "Fecha no disponible";
+
         const tipoBadge = document.createElement('span');
-        tipoBadge.className = 'badge bg-primary'; //punto de mejora evaluación 3, actualmente no está en uso ya que estadoSolicitud tiene sólo 2 valores y bg-primary apunta a un 3er valor
+        tipoBadge.className = 'badge bg-primary'; // actualmente no esta en uso ya que el estado solicitud tiene solo dos valores y bg-primary apunta a un tercer valor
         tipoBadge.textContent = `Reporte #${reporte.id}`;
 
         const estadoBadge = document.createElement('span');
@@ -39,17 +51,18 @@ function renderizarNotificaciones(reportes = []) {
         tr.innerHTML = `
             <td>${tipoBadge.outerHTML}</td>
             <td>${reporte.mensaje || "Sin descripción"}</td>
-            <td>${reporte.fechaCreacion || "Fecha no disponible"}</td>
+            <td>${fechaFormateada}</td>
             <td>${estadoBadge.outerHTML}</td>
         `;
 
         tbody.appendChild(tr);
     });
 
-    // Mostrar esta fila y mensaje si no hay reportes actualmente
+    // Mostrar esta fila y mensaje si no hay reportes por ahora
     if (reportes.length === 0 && filaVacia) {
         filaVacia.style.display = '';
     } else if (filaVacia) {
-        filaVacia.style.display = 'none'; // Ocultar fila vacía si hay reportes
+        // oculta la fila vacia si hay reportes
+        filaVacia.style.display = 'none';
     }
 }
