@@ -1,34 +1,57 @@
 package com.example.edutech.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.edutech.Model.CarritoItem;
 import com.example.edutech.Model.Curso;
+import com.example.edutech.Model.HistorialCompra;
 import com.example.edutech.Repository.CarritoRepository;
+import com.example.edutech.Repository.HistorialCompraRepository;
 
 @Service
 public class CarritoService {
 
     private final CarritoRepository carritoRepository;
     private final CursoService cursoService;
-
-    public CarritoService(CursoService cursoService, CarritoRepository carritoRepository) {
-        this.cursoService = cursoService;
+    private final HistorialCompraService historialCompraService;
+    private final HistorialCompraRepository historialCompraRepository;
+    @Autowired
+    public CarritoService(CarritoRepository carritoRepository, 
+                         CursoService cursoService,
+                         HistorialCompraService historialCompraService,
+                         HistorialCompraRepository historialCompraRepository) {
         this.carritoRepository = carritoRepository;
+        this.cursoService = cursoService;
+        this.historialCompraService = historialCompraService;
+        this.historialCompraRepository = historialCompraRepository;
+        }
+    
+    
+
+    
+    public List<CarritoItem> obtenerItems(int usuarioId) {
+        return carritoRepository.findByUsuarioId(usuarioId);
+    }
+
+    public double calcularTotal(int usuarioId) {
+        return carritoRepository.findByUsuarioId(usuarioId).stream()
+            .mapToDouble(CarritoItem::getSubtotal)
+            .sum();
     }
 
     @Transactional
     public void agregarCurso(Curso curso, int usuarioId) {
+        
         int cursoId = curso.getId();
         Curso cursoActual = cursoService.buscarPorId(cursoId)
                 .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
 
-        // Búsqueda directa del item en el carrito para usuario y curso
         Optional<CarritoItem> existente = carritoRepository.findByUsuarioIdAndCursoId(usuarioId, cursoId);
-
         int cantidadActual = existente.map(CarritoItem::getCantidad).orElse(0);
 
         if (cantidadActual >= cursoActual.getCupos()) {
@@ -47,19 +70,8 @@ public class CarritoService {
             carritoRepository.save(nuevo);
         }
 
-        // Descontar cupo
         cursoActual.setCupos(cursoActual.getCupos() - 1);
         cursoService.guardarCurso(cursoActual);
-    }
-
-    public List<CarritoItem> obtenerItems(int usuarioId) {
-        return carritoRepository.findByUsuarioId(usuarioId);
-    }
-
-    public double calcularTotal(int usuarioId) {
-        return carritoRepository.findByUsuarioId(usuarioId).stream()
-            .mapToDouble(CarritoItem::getSubtotal)
-            .sum();
     }
 
     @Transactional
@@ -103,6 +115,7 @@ public class CarritoService {
 
     @Transactional
     public void vaciarCarrito(int usuarioId) {
+        // Implementación existente se mantiene igual
         List<CarritoItem> items = carritoRepository.findByUsuarioId(usuarioId);
         for (CarritoItem item : items) {
             Curso curso = cursoService.buscarPorId(item.getCursoId()).orElse(null);
@@ -111,12 +124,20 @@ public class CarritoService {
                 cursoService.guardarCurso(curso);
             }
         }
-        carritoRepository.deleteByUsuarioId(usuarioId);
-    }
+            carritoRepository.deleteByUsuarioId(usuarioId);
+        }
+    
+    
 
+    // Método modificado para incluir historial
     @Transactional
     public void finalizarCompra(int usuarioId) {
         List<CarritoItem> items = carritoRepository.findByUsuarioId(usuarioId);
+        if (items.isEmpty()) {
+            throw new IllegalStateException("El carrito está vacío");
+        }
+
+        // Validar stock antes de proceder
         for (CarritoItem item : items) {
             Curso curso = cursoService.buscarPorId(item.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
@@ -124,7 +145,26 @@ public class CarritoService {
                 throw new IllegalStateException("No hay suficientes cupos para: " + curso.getNombre());
             }
         }
+
+        // Convertir items del carrito a historial de compras
+        List<HistorialCompra> compras = items.stream()
+            .map(item -> new HistorialCompra(
+                null,
+                usuarioId,
+                item.getCursoId(),
+                item.getNombre(),
+                item.getPrecio(),
+                item.getCantidad(),
+                item.getSubtotal(),
+                null
+            ))
+            .collect(Collectors.toList());
+
+        // Guardar en historial
+        historialCompraService.guardarCompras(compras);
+
+        // Vaciar carrito
         carritoRepository.deleteByUsuarioId(usuarioId);
-        // Guardar historial o pedido final si querés
     }
+
 }

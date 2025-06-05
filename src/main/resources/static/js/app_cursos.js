@@ -4,13 +4,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function fetchCursos() {
   fetch("/api/v1/cursos")
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error('Error al obtener cursos');
+      return response.json();
+    })
     .then(cursos => mostrarCursos(cursos))
-    .catch(error => console.error("Error al obtener los cursos:", error));
+    .catch(error => {
+      console.error("Error al obtener los cursos:", error);
+      const lista = document.getElementById("lista-cursos");
+      if (lista) {
+        lista.innerHTML = `
+          <div class="alert alert-danger">
+            Error al cargar los cursos: ${error.message}
+          </div>
+        `;
+      }
+    });
 }
 
 function mostrarCursos(cursos) {
   const lista = document.getElementById("lista-cursos");
+  if (!lista) return;
+
   lista.innerHTML = "";
 
   cursos.forEach(curso => {
@@ -37,10 +52,13 @@ function mostrarCursos(cursos) {
 async function agregarAlCarrito(idCurso) {
   try {
     const usuarioId = sessionStorage.getItem("userId");
-    if (typeof usuarioId === "undefined") throw new Error("Usuario no identificado");
+    if (!usuarioId) throw new Error("Debes iniciar sesión para agregar cursos al carrito");
 
     const response = await fetch(`/api/v1/carrito/agregar/${idCurso}?usuarioId=${usuarioId}`, {
-      method: "POST"
+      method: "POST",
+      headers: {
+        'Accept': 'application/json'
+      }
     });
 
     if (!response.ok) {
@@ -48,25 +66,38 @@ async function agregarAlCarrito(idCurso) {
       throw new Error(errorText || "No se pudo agregar el curso al carrito");
     }
 
-    Swal.fire({
+    await Swal.fire({
       title: '¡Éxito!',
       text: 'Curso agregado al carrito',
       icon: 'success',
+      showConfirmButton: false,
+      timer: 1500,
       showClass: { popup: 'animate__animated animate__fadeInDown' },
       hideClass: { popup: 'animate__animated animate__fadeOutUp' }
     });
 
-    fetchCursos();    // Actualiza la tienda
-    await loadCarrito(); // Actualiza el carrito en pantalla
+    // Actualizar la lista de cursos
+    fetchCursos();
+
+    // Intenta actualizar el carrito si la función existe
+    if (typeof loadCarrito === 'function') {
+      try {
+        await loadCarrito();
+      } catch (e) {
+        console.warn("Error al actualizar carrito:", e);
+      }
+    }
 
   } catch (error) {
     console.error("Error al agregar al carrito:", error);
-    Swal.fire({
+    await Swal.fire({
       icon: 'error',
       title: 'Error',
       text: error.message || 'Ocurrió un error al comunicarse con el servidor',
-      confirmButtonText: 'Entendido'
+      confirmButtonText: 'Entendido',
+      showClass: {
+        popup: 'animate__animated animate__headShake'
+      }
     });
   }
 }
-
