@@ -1,6 +1,8 @@
 package com.example.edutech.Model;
 
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,8 @@ public class Notificacion {
     private int id;
     private int usuarioId;
     private String mensaje; 
+
+    private LocalDateTime fechaNotificacion = LocalDateTime.now();
 
 
 }
