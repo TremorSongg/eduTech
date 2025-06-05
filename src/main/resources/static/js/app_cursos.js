@@ -34,40 +34,39 @@ function mostrarCursos(cursos) {
   });
 }
 
-function agregarAlCarrito(idCurso) {
-  fetch(`/api/v1/carrito/agregar/${idCurso}`, {
-    method: "POST"
-  })
-    .then(response => {
-      if (response.ok) {
-        Swal.fire({
-        title: '¡Éxito!',
-        text: 'Curso agregado al carrito',
-        icon: 'success',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        }
-      });
-        fetchCursos(); // actualiza cupos
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudo agregar el curso al carrito',
-          confirmButtonText: 'Entendido'
-        });
-      }
-    })
-    .catch(error => {
-      console.error("Error al agregar al carrito:", error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Ocurrió un error al comunicarse con el servidor',
-        confirmButtonText: 'Entendido'
-      });
+async function agregarAlCarrito(idCurso) {
+  try {
+    const usuarioId = sessionStorage.getItem("userId");
+    if (typeof usuarioId === "undefined") throw new Error("Usuario no identificado");
+
+    const response = await fetch(`/api/v1/carrito/agregar/${idCurso}?usuarioId=${usuarioId}`, {
+      method: "POST"
     });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "No se pudo agregar el curso al carrito");
+    }
+
+    Swal.fire({
+      title: '¡Éxito!',
+      text: 'Curso agregado al carrito',
+      icon: 'success',
+      showClass: { popup: 'animate__animated animate__fadeInDown' },
+      hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+    });
+
+    fetchCursos();    // Actualiza la tienda
+    await loadCarrito(); // Actualiza el carrito en pantalla
+
+  } catch (error) {
+    console.error("Error al agregar al carrito:", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message || 'Ocurrió un error al comunicarse con el servidor',
+      confirmButtonText: 'Entendido'
+    });
+  }
 }
+

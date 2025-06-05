@@ -3,6 +3,9 @@ package com.example.edutech.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import jakarta.persistence.Version;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +23,11 @@ public class CarritoItem {
     private String nombre;
     private int cantidad;
     private double precio;
+    private int usuarioId; // Lo agregue para poder darle persistencia al carrito y asi enlazarlo con el usuario que hara la compra
     private double subtotal;
+
+    @Version
+    private Integer version;
 
     // Constructor para crear un nuevo item en el carrito
     public CarritoItem(int cursoId, String nombre, int cantidad, double precio) {
