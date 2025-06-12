@@ -21,7 +21,7 @@ public class ControlStockController {
     @Autowired
     private ControlStockService controlStockService;
 
-    @GetMapping("/cursos")
+    @GetMapping
     public List<Curso> mostrarCursos() {
         return controlStockService.mostrarCursos();
     }
