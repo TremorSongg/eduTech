@@ -25,7 +25,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,21 +65,21 @@ public class ReporteIncidenciaControllerIntegrationTest {
     }
 
 
-    // @Test
-    // void cambiarEstado_debeActualizarEstadoCorrectamente() throws Exception {
-    //     reporte.setEstado(EstadoSolicitud.EN_PROCESO);
+    @Test
+    void cambiarEstado_debeActualizarEstadoCorrectamente() throws Exception {
+        reporte.setEstado(EstadoSolicitud.RESUELTO);
 
-    //     Map<String, String> payload = new HashMap<>();
-    //     payload.put("estado", "EN_PROCESO");
+        Map<String, String> payload = new HashMap<>();
+        payload.put("estado", "RESUELTO");
 
-    //     when(reporteIncidenciaService.cambiarEstado(1, EstadoSolicitud.EN_PROCESO)).thenReturn(reporte);
+        when(reporteIncidenciaService.cambiarEstado(1, EstadoSolicitud.RESUELTO)).thenReturn(reporte);
 
-    //     mockMvc.perform(put("/api/v1/reportes/estado/1")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .content(new ObjectMapper().writeValueAsString(payload)))
-    //             .andExpect(status().isOk())
-    //             .andExpect(jsonPath("$.estado").value("EN_PROCESO"));
-    // }
+        mockMvc.perform(put("/api/v1/reportes/estado/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(payload)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.estado").value("RESUELTO"));
+    }
 
     @Test
     void getByUsuario_debeRetornarListaDeReportes() throws Exception {
