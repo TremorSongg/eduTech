@@ -19,7 +19,7 @@ package com.example.edutech.Controller;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 // @WebMvcTest(ControlStockController.class)
-public class ControlStockController {
+// public class ControlStockController {
 // @Autowired
 //     private MockMvc mockMvc;
 
@@ -42,4 +42,4 @@ public class ControlStockController {
 //             .andExpect(jsonPath("$.cupos").value(9)) 
 //             .andExpect(jsonPath("$.titulo").value("C++"));
 //     }
-}
+// }
