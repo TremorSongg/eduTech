@@ -16,8 +16,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// Importaciones estáticas para Mockito y MockMvc
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
