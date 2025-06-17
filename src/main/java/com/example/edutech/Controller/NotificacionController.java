@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/notificaciones")
+@Tag(name = "Notificaciones", description = "Operaciones relacionadas con las notificaciones de los usuarios")
 public class NotificacionController {
     
     private NotificacionService notificacionService;
@@ -22,6 +26,7 @@ public class NotificacionController {
     }
     
     //Método utiliza POST desde la ruta /notificaciones
+    @Operation(summary = "Crear Notificación", description = "Permite crear una nueva notificación para un usuario")
     @PostMapping
     // Se reciben los datos desde el front y se transforman a formato JSON
     public ResponseEntity<String> crearNotificacion(@RequestBody Map<String, Object> datos) {

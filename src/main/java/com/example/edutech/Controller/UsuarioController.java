@@ -11,19 +11,25 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/v1/usuarios")
 @CrossOrigin
+@Tag(name = "Usuarios", description = "Operaciones relacionadas con la gestión de usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService serv;
 
+    @Operation(summary = "Registrar nuevo usuario", description = "Permite registrar un nuevo usuario en la plataforma")
     @PostMapping("/registrar")
     public Usuario registrar(@RequestBody Usuario u) {
         return serv.guardar(u);
     }
 
+    @Operation(summary = "Actualizar usuario", description = "Permite actualizar los datos de un usuario existente")
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody Usuario u) {
         Optional<Usuario> user = serv.autenticar(u.getEmail(), u.getPassword());
@@ -39,6 +45,7 @@ public class UsuarioController {
         return response;
     }
 
+    @Operation(summary = "Obtener usuario por ID", description = "Permite obtener los datos de un usuario por su ID")
     @GetMapping("/listar")
     public List<Usuario> listarUsuarios() {
         return serv.obtenerUsuarios();

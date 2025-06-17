@@ -1,11 +1,11 @@
-API_URL = "http://localhost:8080/api/v1/usuarios/login";
+API_URL = "http://192.168.56.1:8080/api/v1/usuarios/login";
 
 function register() {
     const nombre = document.getElementById("regName").value;
     const email = document.getElementById("regEmail").value;
     const password = document.getElementById("regPassword").value;
 
-    fetch("http://localhost:8080/api/v1/usuarios/registrar", {
+    fetch("http://192.168.56.1:8080/api/v1/usuarios/registrar", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
