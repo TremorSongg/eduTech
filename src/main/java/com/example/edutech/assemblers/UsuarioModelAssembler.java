@@ -2,6 +2,7 @@ package com.example.edutech.assemblers;
 
 //clases necesarias para el modelo y controller.
 import com.example.edutech.Model.Usuario;
+import com.example.edutech.Controller.UsuarioController;
 import com.example.edutech.Controller.UsuarioControllerV2;
 //clase static para crear los enlaces HATEOAS
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -19,6 +20,14 @@ import org.springframework.lang.NonNull;
 public class UsuarioModelAssembler implements 
 RepresentationModelAssembler<Usuario, EntityModel <Usuario>>{ //es una clase que implementa la representación
     //del modelo y convierte un objeto usuario en un EntityModel con le que trabajaremos
-
     
+    //Usar anotación @Override para indicar que el sgte método implementa
+    @Override
+    //Método EntityModel<Usuario> para convertir un objeto usuario y añadir los enlaces HATEOAS
+    public @NonNull EntityModel<Usuario> toModel(Usuario u) {
+        return EntityModel.of(u,
+        linkTo(methodOn(UsuarioControllerV2.class).registrar(u:null)).withSelfRel(), 
+        linkTo(methodOn(UsuarioControllerV2.class).login(u:null).withRel(rel:"login"))
+        );
+    }  
 }
