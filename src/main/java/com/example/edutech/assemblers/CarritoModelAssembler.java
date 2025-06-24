@@ -2,7 +2,6 @@ package com.example.edutech.assemblers;
 //clases necesarias para el modelo y controller.
 import com.example.edutech.Model.Curso;
 import com.example.edutech.Model.CarritoItem;
-import com.example.edutech.Controller.CarritoController;
 import com.example.edutech.Controller.CarritoControllerV2;
 //clase static para crear los enlaces HATEOAS
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -25,8 +24,8 @@ RepresentationModelAssembler<Curso,EntityModel<Curso>>{
     public @NonNull EntityModel<Curso> toModel(Curso curso){
         return EntityModel.of(curso,
         //metodo get no usamos withselfrel, solo with rel
-        linkTo(methodOn(CarritoControllerV2.class).verCarrito()).withRel("carrito"),
-        linkTo(methodOn(CarritoControllerV2.class).eliminarCurso(curso.getId())).withRel("Eliminar")
+        linkTo(methodOn(CarritoControllerV2.class).verCarrito(curso.getId())).withRel("Carrito"),
+        linkTo(methodOn(CarritoControllerV2.class).eliminarItem(curso.getId())).withRel("Eliminar")
         );
     }
     
