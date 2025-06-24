@@ -1,4 +1,4 @@
-API_URL = "http://localhost:8080/api/v1/Stock"
+API_URL = "http://10.155.64.154:8080/api/v1/Stock"
 
 function listarCursos() {
     fetch(API_URL)

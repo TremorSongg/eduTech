@@ -17,11 +17,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/v1/notificaciones")
 @Tag(name = "Notificaciones", description = "Operaciones relacionadas con las notificaciones de los usuarios")
-public class NotificacionController {
+public class NotificacionControllerV2 {
     
     private NotificacionService notificacionService;
 
-    public NotificacionController(NotificacionService notificacionService){
+    public NotificacionControllerV2(NotificacionService notificacionService){
         this.notificacionService = notificacionService; // Dice que no se usa pero sí se usa
     }
     

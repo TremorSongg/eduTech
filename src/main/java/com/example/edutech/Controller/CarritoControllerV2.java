@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api/v1/carrito")
 // La notacion @Tag se usa para agrupar y etiquetar los controladores dentro de la documentacion
 @Tag(name = "Carrito", description = "Operaciones relacionadas con el carrito de compras")
-public class CarritoController {
+public class CarritoControllerV2 {
 
     @Autowired
     private CarritoService carritoService;

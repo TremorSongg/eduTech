@@ -16,13 +16,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/v1/historial")
 @Tag(name = "Historial de Compras", description = "Operaciones relacionadas con el historial de compras de los usuarios")
-public class HistorialCompraController {
+public class HistorialCompraControllerV2 {
     
     private final HistorialCompraService historialCompraService;
 
     // Constructor para inyectar el servicio de historial de compras
     // Aqui iba un autowired, pero al ser final no es necesario
-    public HistorialCompraController(HistorialCompraService historialCompraService) {
+    public HistorialCompraControllerV2(HistorialCompraService historialCompraService) {
         this.historialCompraService = historialCompraService;
     }
 
