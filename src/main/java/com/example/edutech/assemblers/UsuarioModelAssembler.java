@@ -2,7 +2,6 @@ package com.example.edutech.assemblers;
 
 //clases necesarias para el modelo y controller.
 import com.example.edutech.Model.Usuario;
-import com.example.edutech.Controller.UsuarioController;
 import com.example.edutech.Controller.UsuarioControllerV2;
 //clase static para crear los enlaces HATEOAS
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;

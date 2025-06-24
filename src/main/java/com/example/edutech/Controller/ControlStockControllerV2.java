@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +26,13 @@ public class ControlStockControllerV2 {
     private ControlStockService controlStockService;
 
     @Operation(summary = "Mostrar cursos", description = "Obtiene una lista de todos los cursos disponibles")
-    @GetMapping
+    @GetMapping(value = "/mostrarCursos", produces = MediaTypes.HAL_JSON_VALUE)
     public List<Curso> mostrarCursos() {
         return controlStockService.mostrarCursos();
     }
     
     @Operation(summary = "Controlar stock de curso", description = "Actualiza el stock de un curso específico")
-    @PostMapping("/controlStock/{id}")
+    @PostMapping(value = "/controlStock/{id}", produces = MediaTypes.HAL_JSON_VALUE)
         public ResponseEntity<Curso> controlarStock(@PathVariable int id) {
             try {
                 Curso actualizado = controlStockService.controlStock(id);
@@ -42,7 +43,7 @@ public class ControlStockControllerV2 {
     }
     
     @Operation(summary = "Buscar curso por ID", description = "Busca un curso específico por su ID")
-    @PostMapping("/{id}")
+    @PostMapping(value = "/buscarCurso", produces = MediaTypes.HAL_JSON_VALUE) // Se reemplazo ("/{id}") por el /buscarCurso
     public Optional<Curso> buscarCurso(@RequestBody int id) {        
         return controlStockService.buscarCurso(id);
     }
