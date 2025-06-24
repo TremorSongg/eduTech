@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/v1/Stock")
 @Tag(name = "Control de Stock", description = "Operaciones relacionadas con el control de stock de cursos")
-public class ControlStockController {
+public class ControlStockControllerV2 {
     @Autowired
     private ControlStockService controlStockService;
 

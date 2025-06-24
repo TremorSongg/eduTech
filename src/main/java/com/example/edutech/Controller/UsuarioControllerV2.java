@@ -2,6 +2,8 @@ package com.example.edutech.Controller;
 
 import com.example.edutech.Model.Usuario;
 import com.example.edutech.Service.UsuarioService;
+import com.example.edutech.assemblers.UsuarioModelAssembler;
+
 
 import java.util.List;
 import java.util.Optional;

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 //Assembler para HATEOAS
-import com.example.edutech.assemblers.UsuarioModelAssembler;
+import com.example.edutech.assemblers.CursoModelAssembler;
 //clases necesarias para HATEOAS
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -27,7 +27,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/api/v1/cursos")
+@RequestMapping("/api/v2/cursos")
 @Tag(name = "Cursos", description = "Operaciones relacionadas con la gestión de cursos")
 public class CursoControllerV2 {
 
@@ -39,12 +39,14 @@ public class CursoControllerV2 {
 
     @Operation(summary = "Obtener todos los cursos", description = "Devuelve una lista de todos los cursos disponibles")
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public CollectionModel<List<Curso>> obtenerCursos() {
-        List<EntityModel<Curso>> curso = cursoService.obtenerCursos().stream()
+    public CollectionModel<EntityModel<Curso>> obtenerCursos() {
+        List<EntityModel<Curso>> cursos = cursoService.obtenerCursos().stream
+        ()
         .map(assembler::toModel)
         .collect(Collectors.toList());
-        return CollectionModel.of(curso,
-        linkTo(methodOn(CursoController.class).obtenerCursos()).//falta);
+        return CollectionModel.of(cursos,
+        linkTo(methodOn(CursoControllerV2.class).obtenerCursos()).
+        withSelfRel());
     }
 
     @Operation(summary = "Obtener curso por ID", description = "Devuelve un curso específico por su ID")
