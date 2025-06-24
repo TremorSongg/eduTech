@@ -24,8 +24,8 @@ RepresentationModelAssembler<Curso,EntityModel<Curso>>{
     public @NonNull EntityModel<Curso> toModel(Curso curso){
         return EntityModel.of(curso,
         //metodo get no usamos withselfrel, solo with rel
-        linkTo(methodOn(CarritoControllerV2.class).verCarrito()).withRel("carrito"),
-        linkTo(methodOn(CarritoControllerV2.class).eliminarCurso(curso.getId())).withRel("Eliminar")
+        linkTo(methodOn(CarritoControllerV2.class).verCarrito(curso.getId())).withRel("Carrito"),
+        linkTo(methodOn(CarritoControllerV2.class).eliminarItem(curso.getId())).withRel("Eliminar")
         );
     }
     
