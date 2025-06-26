@@ -1,5 +1,5 @@
 function registrar() {
-    fetch("http://10.155.64.154:8080/api/v1/usuarios/registrar",{
+    fetch("http://192.168.18.41/api/v1/usuarios/registrar",{
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({

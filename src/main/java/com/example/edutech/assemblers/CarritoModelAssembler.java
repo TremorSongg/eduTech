@@ -22,10 +22,14 @@ RepresentationModelAssembler<Curso,EntityModel<Curso>>{
 
     @Override
     public @NonNull EntityModel<Curso> toModel(Curso curso){
+        return EntityModel.of(curso);
+    }
+        //Método extra para poder asignar el id de usuario
+    public EntityModel<Curso> toModelWithUser(Curso curso, int usuarioId){
         return EntityModel.of(curso,
         //metodo get no usamos withselfrel, solo with rel
         linkTo(methodOn(CarritoControllerV2.class).verCarrito(curso.getId())).withRel("Carrito"),
-        linkTo(methodOn(CarritoControllerV2.class).eliminarItem(curso.getId())).withRel("Eliminar")
+        linkTo(methodOn(CarritoControllerV2.class).eliminarItem(curso.getId(), usuarioId)).withRel("Eliminar")
         );
     }
     

@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/v1/notificaciones")
+@RequestMapping("/api/v2/notificaciones")
 @Tag(name = "Notificaciones", description = "Operaciones relacionadas con las notificaciones de los usuarios")
 public class NotificacionControllerV2 {
     

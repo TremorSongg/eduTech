@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 @RestController
-@RequestMapping("/api/v1/reportes")
+@RequestMapping("/api/v2/reportes")
 @Tag(name = "Reportes de Incidencia", description = "Operaciones relacionadas con los reportes de incidencia de los usuarios")
 public class ReporteIncidenciaControllerV2 {
     private ReporteIncidenciaService reporteIncidenciaService;

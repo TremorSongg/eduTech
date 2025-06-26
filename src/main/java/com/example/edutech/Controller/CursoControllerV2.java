@@ -3,6 +3,7 @@ package com.example.edutech.Controller;
 import com.example.edutech.Model.Curso;
 import com.example.edutech.Service.CursoService;
 import com.example.edutech.assemblers.CursoModelAssembler;
+import com.example.edutech.assemblers.CarritoModelAssembler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +52,10 @@ public class CursoControllerV2 {
 
     @Operation(summary = "Obtener curso por ID", description = "Devuelve un curso específico por su ID")
     @GetMapping("/{id}")
-    public Curso obtenerCursoPorId(@PathVariable int id) {
-        return cursoService.buscarPorId(id).orElse(null);
+    public ResponseEntity<EntityModel<Curso>> obtenerCursoPorId(@PathVariable int id) {
+        Curso curso = cursoService.buscarPorId(id).orElseThrow();
+        EntityModel<Curso>cursoModel = assembler.toModel(curso);
+        return ResponseEntity.ok(cursoModel);
     }
 
     @Operation(summary = "Crear un nuevo curso", description = "Permite crear un nuevo curso en la plataforma")
@@ -79,7 +82,8 @@ public ResponseEntity<Curso> actualizarCurso(@PathVariable Integer id, @RequestB
 
     @Operation(summary = "Eliminar curso", description = "Permite eliminar un curso por su ID")
     @DeleteMapping("/{id}")
-    public void eliminarCurso(@PathVariable int id) {
+    public ResponseEntity<Void> eliminarCurso(@PathVariable int id) {
         cursoService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }

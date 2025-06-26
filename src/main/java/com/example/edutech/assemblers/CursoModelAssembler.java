@@ -22,8 +22,8 @@ public class CursoModelAssembler implements RepresentationModelAssembler<Curso, 
         //El método linkTo se usa para crear los enlaces HATEOAS para cada API
         //methodOn reconoce el método REST del controller
         return EntityModel.of(curso,
-        linkTo(methodOn(CursoControllerV2.class).obtenerCursos()).withSelfRel(),
-        linkTo(methodOn(CursoControllerV2.class).obtenerCursoPorId(curso.getId())).withRel("cursos"),
+        linkTo(methodOn(CursoControllerV2.class).obtenerCursoPorId(curso.getId())).withSelfRel(),
+        linkTo(methodOn(CursoControllerV2.class).obtenerCursos()).withRel("cursos"),
         linkTo(methodOn(CursoControllerV2.class).eliminarCurso(curso.getId())).withRel("eliminar"),
         linkTo(methodOn(CursoControllerV2.class).actualizarCurso(curso.getId(),curso)).withRel("actualizar")
         );
