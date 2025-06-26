@@ -6,6 +6,7 @@ import com.example.edutech.Controller.ControlStockControllerV2;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+import org.springframework.lang.NonNull;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -13,8 +14,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class ControlStockModelAssembler implements RepresentationModelAssembler<Curso, EntityModel<Curso>> {
 
     @Override
-    @org.springframework.lang.NonNull
-    public EntityModel<Curso> toModel(Curso curso) {
+    @NonNull
+    public EntityModel<Curso> toModel(@NonNull Curso curso) {
         return EntityModel.of(curso,
             linkTo(methodOn(ControlStockControllerV2.class).buscarCurso(curso.getId())).withRel("buscar-curso"),
             linkTo(methodOn(ControlStockControllerV2.class).controlarStock(curso.getId())).withRel("controlar-stock"),

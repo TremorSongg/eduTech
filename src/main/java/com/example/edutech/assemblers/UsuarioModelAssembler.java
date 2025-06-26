@@ -14,11 +14,15 @@ import org.springframework.lang.NonNull;
 public class UsuarioModelAssembler implements RepresentationModelAssembler<Usuario, EntityModel<Usuario>> {
 
     @Override
-    public @NonNull EntityModel<Usuario> toModel(Usuario u) {
-        return EntityModel.of(u,
-            linkTo(methodOn(UsuarioControllerV2.class).listarUsuarios()).withSelfRel(),
-            linkTo(methodOn(UsuarioControllerV2.class).login(new Usuario())).withRel("login"),
-            linkTo(methodOn(UsuarioControllerV2.class).registrar(new Usuario())).withRel("registrar")
+    public @NonNull EntityModel<Usuario> toModel(@NonNull Usuario u) {
+        // Enlace 'self' para el usuario individual, asumiendo un endpoint GET /api/v2/usuarios/{id}
+        // Este es crucial para la navegación HATEOAS.
+        EntityModel<Usuario> usuarioModel = EntityModel.of(u,
+            linkTo(methodOn(UsuarioControllerV2.class).getUsuarioById(u.getId())).withSelfRel(),
+            linkTo(methodOn(UsuarioControllerV2.class).listarUsuarios()).withRel("listar-usuarios"), // Enlace a la colección de usuarios
+            linkTo(methodOn(UsuarioControllerV2.class).actualizarUsuario(u.getId(), u)).withRel("actualizar-usuario"), // Enlace para actualizar este usuario
+            linkTo(methodOn(UsuarioControllerV2.class).eliminarUsuario(u.getId())).withRel("eliminar-usuario") // Enlace para eliminar este usuario
         );
+        return usuarioModel;
     }
 }

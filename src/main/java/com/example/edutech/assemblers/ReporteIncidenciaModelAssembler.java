@@ -14,11 +14,15 @@ import org.springframework.lang.NonNull;
 public class ReporteIncidenciaModelAssembler implements RepresentationModelAssembler<ReporteIncidencia, EntityModel<ReporteIncidencia>> {
 
     @Override
-    public @NonNull EntityModel<ReporteIncidencia> toModel(ReporteIncidencia reporte) {
+    public @NonNull EntityModel<ReporteIncidencia> toModel(@NonNull ReporteIncidencia reporte) {
         return EntityModel.of(reporte,
+            // Self link para el reporte de incidencia individual
+            linkTo(methodOn(ReporteIncidenciaControllerV2.class).getReporteById(reporte.getId())).withSelfRel(),
             linkTo(methodOn(ReporteIncidenciaControllerV2.class).getByUsuario(reporte.getUsuarioId())).withRel("reportes-usuario"),
-            linkTo(methodOn(ReporteIncidenciaControllerV2.class).cambiarEstado(reporte.getId(), null)).withRel("cambiar-estado"),
-            linkTo(methodOn(ReporteIncidenciaControllerV2.class).crearSolicitud(null)).withRel("crear")
+            linkTo(methodOn(ReporteIncidenciaControllerV2.class).cambiarEstado(reporte.getId(), null)).withRel("cambiar-estado").withTitle("Cambiar el estado de este reporte. Requiere un cuerpo JSON con 'estado'."),
+            // El link 'crear' para un nuevo reporte, aunque un POST, puede ser útil aquí.
+            // Se le añade un título explicativo.
+            linkTo(methodOn(ReporteIncidenciaControllerV2.class).crearSolicitud(null)).withRel("crear-reporte").withTitle("Crear un nuevo reporte de incidencia. Requiere un cuerpo JSON con 'usuarioId' y 'mensaje'.")
         );
     }
 }

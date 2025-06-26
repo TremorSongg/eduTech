@@ -7,6 +7,7 @@ import com.example.edutech.Repository.ReporteIncidenciaRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,6 +30,10 @@ public class ReporteIncidenciaService {
     //Para poder buscar una solicitud por ID
     public List<ReporteIncidencia> obtenerPorUsuario (int usuarioId){
         return reporteIncidenciaRepository.findByUsuarioId(usuarioId);
+    }
+
+    public Optional<ReporteIncidencia> obtenerPorId(int id) {
+        return reporteIncidenciaRepository.findById(id);
     }
     
     //Aqui busca y compara el id de solicitud, si coincide, cambiar el estado por el nuevo valor
