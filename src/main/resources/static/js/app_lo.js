@@ -1,4 +1,4 @@
-API_URL = "http://192.168.18.41:8080/api/v1/usuarios/login";
+API_URL = "http://192.168.16.174:8080/api/v1/usuarios/login";
 
 function register() {
     const nombre = document.getElementById("regName").value;

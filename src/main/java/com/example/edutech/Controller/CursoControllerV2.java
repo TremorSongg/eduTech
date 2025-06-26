@@ -3,7 +3,7 @@ package com.example.edutech.Controller;
 import com.example.edutech.Model.Curso;
 import com.example.edutech.Service.CursoService;
 import com.example.edutech.assemblers.CursoModelAssembler;
-import com.example.edutech.assemblers.CarritoModelAssembler;
+import com.example.edutech.assemblers.CarritoItemModelAssembler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,22 +39,20 @@ public class CursoControllerV2 {
     private CursoModelAssembler assembler;
 
     @Operation(summary = "Obtener todos los cursos", description = "Devuelve una lista de todos los cursos disponibles")
-    @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @GetMapping(name = "obtenerCursos", produces = MediaTypes.HAL_JSON_VALUE)
     public CollectionModel<EntityModel<Curso>> obtenerCursos() {
-        List<EntityModel<Curso>> cursos = cursoService.obtenerCursos().stream
-        ()
-        .map(assembler::toModel)
-        .collect(Collectors.toList());
+        List<EntityModel<Curso>> cursos = cursoService.obtenerCursos().stream()
+            .map(assembler::toModel)
+            .collect(Collectors.toList());
         return CollectionModel.of(cursos,
-        linkTo(methodOn(CursoControllerV2.class).obtenerCursos()).
-        withSelfRel());
+            linkTo(methodOn(CursoControllerV2.class).obtenerCursos()).withSelfRel());
     }
 
     @Operation(summary = "Obtener curso por ID", description = "Devuelve un curso específico por su ID")
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<EntityModel<Curso>> obtenerCursoPorId(@PathVariable int id) {
         Curso curso = cursoService.buscarPorId(id).orElseThrow();
-        EntityModel<Curso>cursoModel = assembler.toModel(curso);
+        EntityModel<Curso> cursoModel = assembler.toModel(curso);
         return ResponseEntity.ok(cursoModel);
     }
 
@@ -65,23 +63,22 @@ public class CursoControllerV2 {
     }
 
     @Operation(summary = "Actualizar curso", description = "Permite actualizar un curso existente por su ID")
-    @PutMapping("/{id}")
-public ResponseEntity<Curso> actualizarCurso(@PathVariable Integer id, @RequestBody Curso cursoActualizado) {
-    return cursoService.buscarPorId(id)
-        .map(curso -> {
-            curso.setNombre(cursoActualizado.getNombre());
-            curso.setDescripcion(cursoActualizado.getDescripcion());
-            curso.setPrecio(cursoActualizado.getPrecio());
-            curso.setCupos(cursoActualizado.getCupos());
-            cursoService.guardar(curso);
-            return ResponseEntity.ok(curso);
-        })
-        .orElse(ResponseEntity.notFound().build());
-}
-
+    @PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<Curso> actualizarCurso(@PathVariable Integer id, @RequestBody Curso cursoActualizado) {
+        return cursoService.buscarPorId(id)
+            .map(curso -> {
+                curso.setNombre(cursoActualizado.getNombre());
+                curso.setDescripcion(cursoActualizado.getDescripcion());
+                curso.setPrecio(cursoActualizado.getPrecio());
+                curso.setCupos(cursoActualizado.getCupos());
+                cursoService.guardar(curso);
+                return ResponseEntity.ok(curso);
+            })
+            .orElse(ResponseEntity.notFound().build());
+    }
 
     @Operation(summary = "Eliminar curso", description = "Permite eliminar un curso por su ID")
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<Void> eliminarCurso(@PathVariable int id) {
         cursoService.eliminar(id);
         return ResponseEntity.noContent().build();

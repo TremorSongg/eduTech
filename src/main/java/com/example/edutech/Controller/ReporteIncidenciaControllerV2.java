@@ -6,35 +6,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.edutech.Model.EstadoSolicitud;
 import com.example.edutech.Model.ReporteIncidencia;
 import com.example.edutech.Service.ReporteIncidenciaService;
+import com.example.edutech.assemblers.ReporteIncidenciaModelAssembler;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import java.util.stream.Collectors;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 
 @RestController
 @RequestMapping("/api/v2/reportes")
 @Tag(name = "Reportes de Incidencia", description = "Operaciones relacionadas con los reportes de incidencia de los usuarios")
 public class ReporteIncidenciaControllerV2 {
-    private ReporteIncidenciaService reporteIncidenciaService;
 
-    public ReporteIncidenciaControllerV2(ReporteIncidenciaService reporteIncidenciaService){
+    private final ReporteIncidenciaService reporteIncidenciaService;
+    private final ReporteIncidenciaModelAssembler assembler;
+
+    public ReporteIncidenciaControllerV2(ReporteIncidenciaService reporteIncidenciaService, ReporteIncidenciaModelAssembler assembler) {
         this.reporteIncidenciaService = reporteIncidenciaService;
+        this.assembler = assembler;
     }
 
-    //Crear nueva solicitud
     @Operation(summary = "Crear Reporte de Incidencia", description = "Permite a un usuario crear un reporte de incidencia")
-    @PostMapping("/crear")
-    public ResponseEntity<ReporteIncidencia> crearSolicitud(@RequestBody Map<String, Object> datos ) {
+    @PostMapping(value = "/crear", produces = MediaTypes.HAL_JSON_VALUE) // ✅ HAL agregado
+    public ResponseEntity<EntityModel<ReporteIncidencia>> crearSolicitud(@RequestBody Map<String, Object> datos) {
         try {
             int usuarioId = (int)(datos.get("usuarioId"));
             String mensaje = (String)datos.get("mensaje");
@@ -45,37 +47,36 @@ public class ReporteIncidenciaControllerV2 {
             solicitud.setEstado(EstadoSolicitud.PENDIENTE);
 
             ReporteIncidencia nuevaSolicitud = reporteIncidenciaService.crearSolicitud(solicitud);
-            return ResponseEntity.ok(nuevaSolicitud);
+            return ResponseEntity.ok(assembler.toModel(nuevaSolicitud));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
-    
-    //Cambiar estado de solicitud y enviar notificacion
+
     @Operation(summary = "Cambiar Estado de Reporte de Incidencia", description = "Permite cambiar el estado de un reporte de incidencia")
-    @PutMapping("/estado/{id}")
-    public ResponseEntity<ReporteIncidencia> cambiarEstado(
+    @PutMapping(value = "/estado/{id}", produces = MediaTypes.HAL_JSON_VALUE) // ✅ HAL agregado
+    public ResponseEntity<EntityModel<ReporteIncidencia>> cambiarEstado(
             @PathVariable("id") int id,
             @RequestBody Map<String, String> datos){
-        try{
+        try {
             EstadoSolicitud nuevoEstado = EstadoSolicitud.valueOf(datos.get("estado"));
             ReporteIncidencia actualizada = reporteIncidenciaService.cambiarEstado(id, nuevoEstado);
-            return ResponseEntity.ok(actualizada);
+            return ResponseEntity.ok(assembler.toModel(actualizada));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }
+    }
 
-        }
-        //muestra mediante GET, los reportes de usuarios con el mismo id
     @Operation(summary = "Obtener Reportes de Incidencia por Usuario", description = "Devuelve una lista de reportes de incidencia para un usuario específico")
-    @GetMapping("/usuario/{usuarioId}")
-    //ResponseEntity es el esqueleto de los datos con lista de reportes de incidencia
-    //pathvariable consulta la base de datos mediante JPA
-    public ResponseEntity<List<ReporteIncidencia>> getByUsuario(@PathVariable int usuarioId) {
+    @GetMapping(value = "/usuario/{usuarioId}", produces = MediaTypes.HAL_JSON_VALUE) // ✅ HAL agregado
+    public ResponseEntity<CollectionModel<EntityModel<ReporteIncidencia>>> getByUsuario(@PathVariable int usuarioId) {
         try {
-            // aquí obtiene la lista de datos de reporte y los une al esqueleto
             List<ReporteIncidencia> reportes = reporteIncidenciaService.obtenerPorUsuario(usuarioId);
-            return ResponseEntity.ok(reportes);
+            List<EntityModel<ReporteIncidencia>> models = reportes.stream()
+                    .map(assembler::toModel)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(CollectionModel.of(models));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }
