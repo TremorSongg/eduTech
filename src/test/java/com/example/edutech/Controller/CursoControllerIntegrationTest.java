@@ -79,15 +79,5 @@ public class CursoControllerIntegrationTest {
                 .andExpect(status().isOk());
     }
 
-    // no se como hacer este 
-    
-    // @Test
-    // void totalCursosV2_debeRetornarCantidad() throws Exception {
-    //     when(CursoService.totalCursoV2()).thenReturn(10);
-
-    //     mockMvc.perform(get("/api/v1/libros/total"))
-    //             .andExpect(status().isOk())
-    //             .andExpect(content().string("10"));
-    // }
 
 }

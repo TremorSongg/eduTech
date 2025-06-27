@@ -68,7 +68,7 @@ public class UsuarioControllerIntegrationTest {
 
 
     }
-        //Test simular inicio sesion con usuario inexistente
+        
     @Test
     void loginUsuario_ReturnError() throws Exception{
         Usuario userError = new Usuario();
@@ -80,7 +80,7 @@ public class UsuarioControllerIntegrationTest {
         when(usuarioService.autenticar("noexiste@gmail.com","1234"))
         .thenReturn(Optional.empty());
 
-        //Realizar la simulacion de petición POST para inicio sesion
+
         mockMvc.perform(post("/api/v1/usuarios/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(userError)))
