@@ -1,6 +1,6 @@
 // Define la URL para el login de la API v1.
 // Se mantiene 'API_URL' separado de 'BASE_API_URL' según tu estructura actual.
-const API_URL = "http://192.168.56.1:8080/api/v1/usuarios/login";
+const API_URL = "http://192.168.18.41:8080/api/v1/usuarios/login";
 
 function register() {
     const nombre = document.getElementById("regName").value;
@@ -8,7 +8,7 @@ function register() {
     const password = document.getElementById("regPassword").value;
 
     // Se mantiene la ruta de la API v1 explícitamente para el registro, según tu solicitud.
-    fetch("http://192.168.56.1:8080/api/v1/usuarios/registrar", {
+    fetch("http://192.168.18.41:8080/api/v1/usuarios/registrar", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({

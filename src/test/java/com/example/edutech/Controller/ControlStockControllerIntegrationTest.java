@@ -31,7 +31,7 @@ public class ControlStockControllerIntegrationTest {
     private ControlStockService controlStockService;
 
     @Test
-    void agregarLibro_debeGuardarYRestarUnCupo() throws Exception {
+    void agregarCurso_debeGuardarYRestarUnCupo() throws Exception {
         Curso curso = new Curso(3, "C++", "C++ desde cero", 10, 100000.0);
         Curso cursoConCupoReducido = new Curso(3, "C++", "C++ desde cero", 9, 100000.0);
 
