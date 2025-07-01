@@ -2,8 +2,13 @@ package com.example.edutech.Controller;
 
 import com.example.edutech.Model.HistorialCompra;
 import com.example.edutech.Service.HistorialCompraService;
+import com.example.edutech.assemblers.HistorialModelAssembler;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,23 +19,28 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/v1/historial")
+@RequestMapping("/api/v2/historial")
 @Tag(name = "Historial de Compras", description = "Operaciones relacionadas con el historial de compras de los usuarios")
-public class HistorialCompraController {
-    
-    private final HistorialCompraService historialCompraService;
+public class HistorialCompraControllerV2 {
 
-    // Constructor para inyectar el servicio de historial de compras
-    // Aqui iba un autowired, pero al ser final no es necesario
-    public HistorialCompraController(HistorialCompraService historialCompraService) {
+    private final HistorialCompraService historialCompraService;
+    private final HistorialModelAssembler historialModelAssembler;
+
+    public HistorialCompraControllerV2(HistorialCompraService historialCompraService,
+                                       HistorialModelAssembler historialModelAssembler) {
         this.historialCompraService = historialCompraService;
+        this.historialModelAssembler = historialModelAssembler;
     }
 
     @Operation(summary = "Obtener historial de compras", description = "Devuelve una lista de todas las compras realizadas por los usuarios")
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<HistorialCompra>> obtenerHistorialPorUsuario(
-            @PathVariable int usuarioId) {
+    @GetMapping(value = "/usuario/{usuarioId}", produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<?> obtenerHistorialPorUsuario(@PathVariable int usuarioId) {
         List<HistorialCompra> historial = historialCompraService.obtenerHistorialPorUsuarioId(usuarioId);
-        return ResponseEntity.ok(historial);
+
+        List<EntityModel<HistorialCompra>> historialConLinks = historial.stream()
+                .map(historialModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(historialConLinks);
     }
 }

@@ -3,7 +3,6 @@ package com.example.edutech.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ public class CarritoService {
     private final CursoService cursoService;
     private final HistorialCompraService historialCompraService;
     private final HistorialCompraRepository historialCompraRepository;
-    @Autowired
     public CarritoService(CarritoRepository carritoRepository, 
                          CursoService cursoService,
                          HistorialCompraService historialCompraService,

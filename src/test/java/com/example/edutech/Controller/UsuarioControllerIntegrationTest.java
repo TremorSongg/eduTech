@@ -7,7 +7,6 @@ import com.example.edutech.Service.UsuarioService;
 //importar ObjectMapper para convertir objetos en json
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.aspectj.apache.bcel.generic.IINC;
 //importar anotacionesde pruebas de Junit
 import org.junit.jupiter.api.Test;
 // importar las anotaciones de Spring para inyectar las dependencias Maven
@@ -29,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //any para simular metodos de servicios
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.startsWith;
 //mockito para simular el comportamiento de los métodos del servicio
 import static org.mockito.Mockito.when;
 
@@ -70,7 +68,7 @@ public class UsuarioControllerIntegrationTest {
 
 
     }
-        //Test simular inicio sesion con usuario inexistente
+        
     @Test
     void loginUsuario_ReturnError() throws Exception{
         Usuario userError = new Usuario();
@@ -82,7 +80,7 @@ public class UsuarioControllerIntegrationTest {
         when(usuarioService.autenticar("noexiste@gmail.com","1234"))
         .thenReturn(Optional.empty());
 
-        //Realizar la simulacion de petición POST para inicio sesion
+
         mockMvc.perform(post("/api/v1/usuarios/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(userError)))

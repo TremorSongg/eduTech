@@ -3,9 +3,14 @@ package com.example.edutech.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.example.edutech.Model.Curso;
 
+@Component
 public class ControlStockRepository {
+    @Autowired
     private CursoRepository cursoRepository;
 
     public Curso controlStock(int id) {

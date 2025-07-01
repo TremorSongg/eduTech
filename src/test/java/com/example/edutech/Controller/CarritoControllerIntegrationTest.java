@@ -90,18 +90,5 @@ public class CarritoControllerIntegrationTest {
                 .andExpect(content().string("Carrito vaciado correctamente"));
     }
 
-    // no se como hacer este tampoco
-
-    // @Test
-    // void totalLibrosCarrito_debeRetornarCantidad() throws Exception {
-    //     when(cursoService.buscarPorId(1)).thenReturn(Optional.of(cursoEjemplo));
-    //     mockMvc.perform(post("/api/v1/carrito/agregar/1")
-    //             .param("usuarioId", "123"));
-
-    //     mockMvc.perform(get("/api/v1/carrito")
-    //             .param("usuarioId", "123"))
-    //             .andExpect(status().isOk())
-    //             .andExpect(content().string("1"));
-    // }
-
+  
 }

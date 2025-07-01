@@ -33,7 +33,7 @@ public class CursoControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void listarLibros_debeRetornarListaJson() throws Exception {
+    void listarCursos_debeRetornarListaJson() throws Exception {
         List<Curso> cursos = List.of(
                 new Curso(1, "python", "python desde cero", 30,100000.0),
                 new Curso(2, "java", "java desde cero", 25,100000.0)
@@ -48,7 +48,7 @@ public class CursoControllerIntegrationTest {
     }
 
     @Test
-    void agregarLibro_debeGuardarYRetornarLibro() throws Exception {
+    void agregarCurso_debeGuardarYRetornarCurso() throws Exception {
         Curso curso = new Curso(3, "C++", "C++ desde cero", 10,100000.0);
 
         when(cursoService.guardar(any(Curso.class))).thenReturn(curso);
@@ -61,7 +61,7 @@ public class CursoControllerIntegrationTest {
     }
 
     @Test
-    void buscarLibro_porId_existente() throws Exception {
+    void buscarCurso_porId_existente() throws Exception {
         Curso curso = new Curso(4, "Html", "Html desde cero", 1,100000.0);
 
         when(cursoService.buscarPorId(4)).thenReturn(Optional.of(curso));
@@ -72,22 +72,12 @@ public class CursoControllerIntegrationTest {
     }
 
     @Test
-    void eliminarLibro_existente() throws Exception {
+    void eliminarCurso_existente() throws Exception {
         doNothing().when(cursoService).eliminar(3);
 
         mockMvc.perform(delete("/api/v1/cursos/3"))
                 .andExpect(status().isOk());
     }
 
-    // no se como hacer este 
-    
-    // @Test
-    // void totalLibrosV2_debeRetornarCantidad() throws Exception {
-    //     when(libroService.totalLibrosV2()).thenReturn(10);
-
-    //     mockMvc.perform(get("/api/v1/libros/total"))
-    //             .andExpect(status().isOk())
-    //             .andExpect(content().string("10"));
-    // }
 
 }

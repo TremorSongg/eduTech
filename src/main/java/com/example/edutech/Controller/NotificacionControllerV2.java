@@ -5,49 +5,51 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.edutech.Service.NotificacionService;
 import com.example.edutech.Model.Notificacion;
+import com.example.edutech.assemblers.NotificacionModelAssembler;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.Map;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/v1/notificaciones")
+@RequestMapping("/api/v2/notificaciones")
 @Tag(name = "Notificaciones", description = "Operaciones relacionadas con las notificaciones de los usuarios")
-public class NotificacionController {
-    
-    private NotificacionService notificacionService;
+public class NotificacionControllerV2 {
 
-    public NotificacionController(NotificacionService notificacionService){
-        this.notificacionService = notificacionService; // Dice que no se usa pero sí se usa
+    private final NotificacionService notificacionService;
+    private final NotificacionModelAssembler notificacionModelAssembler;
+
+    public NotificacionControllerV2(NotificacionService notificacionService,
+                                    NotificacionModelAssembler notificacionModelAssembler) {
+        this.notificacionService = notificacionService;
+        this.notificacionModelAssembler = notificacionModelAssembler;
     }
-    
-    //Método utiliza POST desde la ruta /notificaciones
+
     @Operation(summary = "Crear Notificación", description = "Permite crear una nueva notificación para un usuario")
-    @PostMapping
-    // Se reciben los datos desde el front y se transforman a formato JSON
-    public ResponseEntity<String> crearNotificacion(@RequestBody Map<String, Object> datos) {
+    @PostMapping(name = "crearNotificacion", produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<?> crearNotificacion(@RequestBody Map<String, Object> datos) {
         try {
-            //se obtienen los "datos" y se formatean a int y string
             int usuarioId = (int) datos.get("usuarioId");
             String mensaje = (String) datos.get("mensaje");
-            //se construye notificación como objeto que contiene los datos
+
             Notificacion notificacion = new Notificacion();
             notificacion.setUsuarioId(usuarioId);
             notificacion.setMensaje(mensaje);
 
-            //Guarda ek objeto en la base de datos con JPA
-            notificacionService.crear(notificacion);
-            //confirma
-            return ResponseEntity.ok("Notificación Creada");
+            Notificacion creada = notificacionService.crear(notificacion);
+
+            EntityModel<Notificacion> notificacionModel = notificacionModelAssembler.toModel(creada);
+
+            return ResponseEntity.ok(notificacionModel);
         } catch (Exception e) {
-            //deniega en caso de error
             return ResponseEntity.badRequest().body("Datos inválidos" + e.getMessage());
         }
-
     }
-    
 }
